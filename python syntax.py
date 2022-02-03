@@ -20,3 +20,8 @@ while not done:
     if num_courses > 0:
         print('Yo is {0:.3}'.format(total_points/num_courses))
 
+reply = input('Enter x and y, separated by spaces: ')
+pieces = reply.split()
+x = float(pieces[0])
+y = float(pieces[1])
+
