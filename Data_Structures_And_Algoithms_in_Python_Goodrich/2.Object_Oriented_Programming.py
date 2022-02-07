@@ -1,6 +1,8 @@
 # Ke Shi on Feb 4th, 2022
 # 2.3 Class Definitions
 # Example: CreditCard Class
+import collections.abc
+
 class CreditCard:
     """
     A consumer credit card.
@@ -119,7 +121,7 @@ class SequenceIterator:
         return self
 
 # Example: Range Class
-class Range:
+class Range(collections.abc.Sequence):
     """A class that mimic's built-in range class."""
 
     def __init__(self,start, stop = None, step = 1):
@@ -157,6 +159,7 @@ class Range:
 # Extending the CreditCard Class
 class PredatoryCreditCard(CreditCard):
     """An extension to CreditCard that compounds interest and fees."""
+    OVERLIMIT_FEE = 5
 
     def __init__(self,customer,bank,acnt,limit,apr):
         """
@@ -179,7 +182,7 @@ class PredatoryCreditCard(CreditCard):
         """
         success = super().charge(price)  # call inherited method
         if not success:
-            self._balance += 5     # access penalty
+            self._balance += PredatoryCreditCard.OVERLIMIT_FEE     # access penalty
         return success             # caller expects return value
 
     def process_month(self):
@@ -275,6 +278,9 @@ class FibonacciProgression(Progression):
         """Update current value by taking sum of previous two."""
         self._prev,self._current = self._current, self._prev + self._current
 
+class A:  # the outer class
+    class B:  # the nested class
+
 """
 if __name__ == '__main__':
     wallet = []
@@ -311,6 +317,50 @@ if __name__ == '__main__':
         total += entry
 
 """
+
+# Abstract Base Class
+from abc import ABCMeta, abstractmethod   # need these definitions
+class Sequence(metaclass=ABCMeta):
+    """Our own version of collections. Sequence abstract base class."""
+
+    @abstractmethod
+    def __len__(self):
+        """Return the length of the sequence."""
+
+    @abstractmethod
+    def __getitem__(self, j):
+        """Return the element at index j of the sequence."""
+
+    def __contains__(self, val):
+        """Return True if val found in the sequence; False otherwise."""
+        for j in range(len(self)):
+            if self[j] == val:   # found match
+                return True
+        return False
+
+    def index(self,val):
+        """Return leftmost index at which val is found (or raise ValueError)."""
+        for j in range(len(self)):
+            if self[j] == val:           # leftmost match
+                return j
+        raise ValueError('value not in sequence')       # never found a match
+
+    def count(self,val):
+        """Return the number of elements equal to given value."""
+        k = 0
+        for j in range(len(self)):
+            if self[j] == val:      # found a match
+                k += 1
+        return k
+
+
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
     print('Default Progression:')
