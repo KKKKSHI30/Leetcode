@@ -1,4 +1,6 @@
-# Ke Shi on Feb 4th, 2022
+# Ke Shi on Feb 5th, 2022
+import copy
+import random
 def Insertion_Sort(nums):
     """
     :param nums: List[int]
@@ -13,3 +15,19 @@ def Insertion_Sort(nums):
 def SystemSort(nums):
     nums.sort()
     return nums
+
+def logarithmic_Detector():
+    MAX_SIZE = 100
+    MAX_NUMBER = 100
+    lst = [0] *MAX_SIZE
+    for i in range(MAX_SIZE):
+        lst[i] = random.randint(0,MAX_NUMBER)
+        print(lst[i])
+    lst2 = copy.deepcopy(lst)
+    Insertion_Sort(lst)
+    SystemSort(lst2)
+    if (lst == lst2):
+        print("success")
+    else:
+        print("NO")
+
