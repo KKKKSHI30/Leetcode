@@ -7,7 +7,7 @@ def get_max(nums):
     return process(nums,0,len(nums)-1)
 
 def process(nums,left, right):
-    if (left == right):
+    if left == right:
         return nums[left]
 
     for i in range(left,right+1):
