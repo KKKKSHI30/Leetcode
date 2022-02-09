@@ -20,7 +20,6 @@ def process(nums,left,right):
         return nums
     else:
         mid = (left + right) // 2
-        print(f"mid is {mid} rightnow.")
         process(nums,left, mid)
         process(nums,mid+1, right)
         merge(nums,left,mid,right)
