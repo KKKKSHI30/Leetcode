@@ -20,7 +20,6 @@ def process(nums,left,right):
     mid = (left + right) //2
     print("in process, ",nums[left:mid+1], "and ", nums[mid+1:right+1])
     nums2 = []
-    print("process(nums,left, mid) is ",process(nums,left, mid))
     nums2.extend(process(nums,left, mid))
     nums2.extend(process(nums, mid+1,right))
     nums2.extend(merge(nums,left,mid,right))
