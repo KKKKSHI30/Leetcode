@@ -18,7 +18,7 @@ def Sort(nums,left,right):
     if left == right:
         return nums
     else:
-        chosen = nums[random.randint(left,right-1)]
+        chosen = nums[random.randint(left,right)]
         p = partition(nums,chosen,left,right)
         Sort(nums,left,p[0])
         Sort(nums,p[1],right)
@@ -32,18 +32,20 @@ def partition(nums,chosen,left,right):
     :param right: int
     :return: tuple
     """
-    j, k = 0, len(nums)-1
-    for i in range(len(nums)):
+    i,j, k = left,left, right
+    while i != (k+1):
         if nums[i] > chosen:
             nums[i],nums[k] = nums[k],nums[i]
-            i -= 1
             k -= 1
         elif nums[i] < chosen:
             nums[j],nums[i] = nums[i],nums[j]
             j +=1
+            i +=1
         else:
+            i +=1
             continue
-    return (j,k)
+    return (max(j-1,0),(min(k+1,len(nums)-1)))
+# 0-j, k+1-len(nums)-1
 
 
 
