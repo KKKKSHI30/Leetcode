@@ -6,7 +6,9 @@ def Quick_Sort(nums):
     """
     if len(nums) == 0 or len(nums) == 1:
         return nums
-    return Sort(nums,0,len(nums)-1)
+    Sort(nums, 0, len(nums) - 1)
+    print(nums)
+    return nums
 
 def Sort(nums,left,right):
     """
@@ -32,8 +34,8 @@ def partition(nums,chosen,left,right):
     :param right: int
     :return: tuple
     """
-    i,j, k = left,left, right
-    while i != (k+1):
+    i, j, k = left,left, right
+    while i < (k+1):
         if nums[i] > chosen:
             nums[i],nums[k] = nums[k],nums[i]
             k -= 1
@@ -44,13 +46,13 @@ def partition(nums,chosen,left,right):
         else:
             i +=1
             continue
-    return (max(j-1,0),(min(k+1,len(nums)-1)))
-# 0-j, k+1-len(nums)-1
+    return (max(left,j-1),min(k+1,right))
+# max(left, j-1) is for if j doesn't change, it will not exceed the array
 
 
 
 
-A = [3,7,5,2,2,6,8,2,3,6,7,8]
+A = [3,6,2,5,4,7,4,7,2,7,9,2]
 Quick_Sort(A)
 
 
