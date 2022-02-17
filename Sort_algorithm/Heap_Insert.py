@@ -7,7 +7,7 @@ def heap_insert(nums,index):
     :param index: num
     :return: List[nums]
     """
-    while (nums[index] > nums[(index-1)/2]):
-        nums[index],nums[(index-1)/2] = nums[(index-1)/2],nums[index]
-        index = (index-1)/2
+    while (nums[index] > nums[max((index-1)//2,0)]):
+        nums[index],nums[(index-1)//2] = nums[(index-1)//2],nums[index]
+        index = (index-1)//2
     return nums
