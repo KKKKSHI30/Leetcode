@@ -1,5 +1,3 @@
-# Ke Shi on Feb 2nd, 2022
-
 def SelectionSort(nums):
     """
     :param nums: List[int]
