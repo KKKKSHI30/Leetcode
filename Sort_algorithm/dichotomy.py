@@ -7,7 +7,7 @@
 def BinarySearchWhile(lst, value):
     lo, hi = 0, len(lst) - 1
     while lo <= hi:
-        half = ((lo + hi) // 2)
+        half = (lo + hi) // 2
         if lst[half] > value:
             hi = half - 1
         elif value > lst[half]:
@@ -16,19 +16,20 @@ def BinarySearchWhile(lst, value):
             return print("in it")
     return print("not in it")
 
-A = [1,2,3,4,5]
+
+A = [1, 2, 3, 4, 5]
 
 # Recursion
 
-def BinarySearchRecursion(lst, value,lo,hi):
+
+def BinarySearchRecursion(lst, value, lo, hi):
     if lst[lo] <= value <= lst[hi]:
-        half = ((lo + hi) // 2)
+        half = (lo + hi) // 2
         if lst[half] == value:
             return print("in it")
         elif lst[half] < value:
-            return BinarySearchRecursion(lst,value,half+1,hi)
+            return BinarySearchRecursion(lst, value, half + 1, hi)
         else:
-            return BinarySearchRecursion(lst,value,lo,half-1)
+            return BinarySearchRecursion(lst, value, lo, half - 1)
     else:
         return print("not in it")
-
