@@ -5,7 +5,7 @@ def counting_sort(nums):
     :param nums: List[int], int 0-200
     :return: List[int]
     """
-    lst = [0] * 11
+    lst = [0] * 201
     for i in range(len(nums)):
         lst[nums[i]] += 1
 
