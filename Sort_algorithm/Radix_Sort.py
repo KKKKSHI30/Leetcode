@@ -1,5 +1,4 @@
 # Ke Shi on Feb 21th, 2022
-import math
 def Radix_Sort(nums):
     """
     for non-negative value
@@ -25,6 +24,14 @@ def maxbits(nums):
         bit += 1
     return bit
 
+def get_digit(number, digit):
+    """
+    :param number: int
+    :param digit: int
+    :return: int
+    """
+    return int(number/pow(10,digit-1)%10)
+
 
 def radix_sort(nums,left,right,digit):
     """
@@ -34,3 +41,8 @@ def radix_sort(nums,left,right,digit):
     :param digit: int
     :return: List[int]
     """
+    radix = 10
+    i, j = 0,0
+    bucket = []
+    count = [0]*10
+
