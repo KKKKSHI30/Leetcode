@@ -2,9 +2,9 @@
 
 
 class ListNode:
-    def __init__(self, x):
-        self.val = x
-        self.next = None
+    def __init__(self, element, next):
+        self.element = element
+        self.next = next
 
 
 def nonrecurse(head):  # 循环的方法反转链表
