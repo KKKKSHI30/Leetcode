@@ -7,6 +7,8 @@ start_time = time()
 end_time = time()
 elapsed = end_time - start_time
 
+# 3.3 Asymptotic Analysis
+
 def prefix_average1(S):
     n = len(S)
     A = [0] * n
