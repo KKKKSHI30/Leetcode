@@ -115,6 +115,49 @@ def power(x, n):
     else:
         return x*power(x, n-1)
 
+def power(x,n):
+    """Compute the value x**n for integer n."""
+    if n == 0:
+        return 1
+    else:
+        partial = power(x, n//2)
+        result = partial & partial
+        if n%2 == 1:
+            result *= x
+        return result
+
+# 4.4.2 Binary Recursion
+def binary_sum(S, start, stop):
+    """Return the sum of the numbers in implicit slice S[start:stop]"""
+    if start >= stop:
+        return 0
+    elif start == stop-1:
+        return S[start]
+    else:
+        mid = (start + stop) //2
+        return binary_sum(S, start, mid) + binary_sum(S, mid, stop)
+
+# 4.6 Eliminating Tail Recursion
+def binary_search_iterative(data, target):
+    low = 0
+    high = len(data) - 1
+    while low <= high:
+        mid = (low + high) //2
+        if target == data[mid]:
+            return True
+        elif target < data[mid]:
+            high = mid -1
+        else:
+            low = mid + 1
+    return False
+
+def reverse_iterative(S):
+    """Reverse elements in sequence S."""
+    start, stop = 0, len(S)
+    while start < stop -1:
+        S[start], S[stop-1] = S[stop -1], S[start]
+        start, stop = start +1, stop -1
+
 
 
 
