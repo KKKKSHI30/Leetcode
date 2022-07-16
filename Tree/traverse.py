@@ -1,4 +1,5 @@
 # Ke Shi on July 15th, 2022
+
 from queue import LifoQueue
 
 class node:
@@ -6,9 +7,6 @@ class node:
         self.element = element
         self.left = left
         self.right = right
-
-# 直观打印二叉树
-# 二叉树的宽度优先遍历（求一棵树的宽度）
 
 def pre_order(head):
     if head == None:
