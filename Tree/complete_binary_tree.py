@@ -37,5 +37,6 @@ tree2 = node(1,
              node(3, node(6), node(7))
              )
 
+
 check_CBT(tree1)
 check_CBT(tree2)
