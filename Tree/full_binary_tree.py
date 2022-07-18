@@ -6,6 +6,6 @@ class node:
         self.left = left
         self.right = right
 
-# 第三题
-# 一颗二叉树是不是满二叉树
+def FBT(head):
+    pass
 
