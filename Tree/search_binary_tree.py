@@ -57,6 +57,32 @@ def in_order_no_recursion(head):
             cur = None
     return True
 
+def SBT(head):
+    search_binary, cur_min, cur_max = search_binary_tree(head)
+    return search_binary
+
+def search_binary_tree(head):
+    """Using resursion with min, max, search_binary_tree as three variables and do the recursion"""
+    if head == None:
+        return (True, None, None)
+    cur_min = head.element
+    cur_max = head.element
+    left_search, left_min, left_max = search_binary_tree(head.left)
+    right_search, right_min, right_max = search_binary_tree(head.right)
+
+    if head.left != None:
+        cur_min = min(cur_min, left_min)
+        cur_max = max(cur_max, left_max)
+    if head.right != None:
+        cur_min = min(cur_min, right_min)
+        cur_max = max(cur_max, left_max)
+    search_binary = True
+
+    if left_max != None and (not left_search or left_max > head.element):
+        search_binary = False
+    if right_min != None and (not right_search or right_min < head.element):
+        search_binary = False
+    return (search_binary, cur_min, cur_max)
 
 tree1 = node(1,
              node(2, node(4), node(5)),
@@ -84,4 +110,6 @@ in_order_no_recursion(tree1)
 pre_value = -sys.maxsize - 1
 in_order_no_recursion(tree2)
 
+SBT(tree1)
+SBT(tree2)
 
