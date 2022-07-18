@@ -84,6 +84,7 @@ def search_binary_tree(head):
         search_binary = False
     return (search_binary, cur_min, cur_max)
 
+
 tree1 = node(1,
              node(2, node(4), node(5)),
              node(3, node(6), node(7))
