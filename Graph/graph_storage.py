@@ -24,11 +24,13 @@ class node:
         nexts = []
         edges = []
 
+
 class edge:
     def __init__(self, weight, node_from, node_to):
         weight = weight
         node_from = node_from
         node_to = node_to
+
 
 def create_graph(m):
     """m1 is a matrix [][], matrix[0][0] is from, matrix[0][1] is to, matrix[0][2] is weight"""
