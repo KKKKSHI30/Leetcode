@@ -13,23 +13,23 @@
 
 class graph:
     def __init__(self):
-        nodes = {}
-        edges = []
+        self.nodes = {}
+        self.edges = []
 
 class node:
     def __init__(self, element):
-        element = element
-        nodes_in = 0
-        nodes_out = 0
-        nexts = []
-        edges = []
+        self.element = element
+        self.nodes_in = 0
+        self.nodes_out = 0
+        self.nexts = []
+        self.edges = []
 
 
 class edge:
-    def __init__(self, weight, node_from, node_to):
-        weight = weight
-        node_from = node_from
-        node_to = node_to
+    def __init__(self, node_from, node_to, weight = None):
+        self.node_from = node_from
+        self.node_to = node_to
+        self.weight = weight
 
 
 def create_graph(m):
