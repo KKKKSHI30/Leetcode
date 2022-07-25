@@ -1,4 +1,6 @@
-# Ke Shi on July 24th, 2022
+# Ke Shi on July 25th, 2022
+
+import sys
 
 class graph:
     def __init__(self):
@@ -19,8 +21,32 @@ class edge:
         self.node_to = node_to
         self.weight = weight
 
-def dijkstra(graph):
-    pass
+
+def min_distance_unselected_node(distance_map, selected_nodes):
+    next_node = None
+    min_distance = sys.maxsize
+    for node in distance_map.keys():
+        if node not in selected_nodes and distance_map[node] < min_distance:
+            next_node = node
+            min_distance = distance_map[node]
+    return next_node
+
+def dijkstra(head):
+    distance_map = {}
+    distance_map[head] = 0
+    selected_nodes = []
+    next_node = min_distance_unselected_node(distance_map, selected_nodes)
+    while next_node != None:
+        distance = distance_map[next_node]
+        for edge in next_node.edges:
+            to_node = edge.node_to
+            if to_node not in distance_map.keys():
+                distance_map[to_node] = distance + edge.weight
+            else:
+                distance_map[to_node] = min(distance + edge.weight, distance_map[to_node])
+        selected_nodes.append(next_node)
+        next_node = min_distance_unselected_node(distance_map, selected_nodes)
+    return distance_map
 
 
 graph1 = graph()
@@ -64,3 +90,10 @@ graph1.edges = [edge(graph1.nodes["A"],graph1.nodes["B"], 3), edge(graph1.nodes[
                 edge(graph1.nodes["C"],graph1.nodes["D"], 7), edge(graph1.nodes["D"],graph1.nodes["C"], 7),
                 edge(graph1.nodes["C"],graph1.nodes["E"], 14), edge(graph1.nodes["E"],graph1.nodes["C"], 14),
                 edge(graph1.nodes["D"],graph1.nodes["E"], 16), edge(graph1.nodes["E"],graph1.nodes["D"], 16)]
+
+results = dijkstra(graph1.nodes["A"])
+
+
+
+
+
