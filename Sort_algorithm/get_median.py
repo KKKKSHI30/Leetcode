@@ -43,7 +43,6 @@ def get_median():
         elif len(big_heap) - len(small_heap) == 2:
             heapq.heappush(small_heap, min_heap(heapq.heappop(big_heap).val))
 
-
         if (len(small_heap) + len(big_heap)) % 2 == 0:
             big = heapq.heappop(big_heap).val
             small = heapq.heappop(small_heap).val
@@ -59,6 +58,5 @@ def get_median():
             print(f"median is {cur}")
             heapq.heappush(big_heap, max_heap(cur))
         num = input("print a number in keyboard")
-
 
 get_median()
