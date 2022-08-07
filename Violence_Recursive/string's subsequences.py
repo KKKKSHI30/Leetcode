@@ -15,6 +15,22 @@ def process(s, i, res):
     res_no_include = copy.deepcopy(res)
     process(s, i+1, res_no_include)
 
-subsequences("abc")
+def subsequences2(s):
+    s = list(s)
+    process2(s, 0)
+
+def process2(s, i):
+    if (i == len(s)):
+        print(''.join(s))
+        return
+    process2(s, i+1)
+    tmp = s.pop(i)
+    s.insert(i, "")
+    process2(s, i+1)
+    s.pop(i)
+    s.insert(i, tmp)
+
+# subsequences("abc")
+subsequences2("abc")
 
 
