@@ -10,7 +10,7 @@ class Solution(object):
                 if nums[i] + nums[j] == target:
                     return ([i,j])
 
-
+# tips: saving the existed results and find the other parts
 class Solution2(object):
     def twoSum(self, nums, target):
         """
