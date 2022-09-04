@@ -25,7 +25,9 @@ class Solution(object):
         maxlength = max(maxlength, length)
         return maxlength
 
-
+# easier way to save left and right key
+# if left is still in this string, move left, if not move right
+# calculate the maximum length each time
 class Solution2(object):
     def lengthOfLongestSubstring(self, s):
         """
