@@ -56,6 +56,7 @@ class Solution2(object):
         return water
 
 
+# tips: using double pointer and assume left is always smaller than right to calculate water
 class Solution2:
     def trap(self, height):
         """
