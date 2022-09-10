@@ -75,7 +75,7 @@ def search_binary_tree(head):
         cur_max = max(cur_max, left_max)
     if head.right != None:
         cur_min = min(cur_min, right_min)
-        cur_max = max(cur_max, left_max)
+        cur_max = max(cur_max, right_max)
     search_binary = True
 
     if left_max != None and (not left_search or left_max > head.element):
