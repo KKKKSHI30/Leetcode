@@ -29,6 +29,6 @@ class Solution2(object):
         return [-1, -1]
 
 a = Solution2()
-a.twoSum([2,7,11,15],9)
+a.twoSum([2,7,11,15,3,6],9)
 a.twoSum([3,2,4],6)
 a.twoSum([3,3],6)
