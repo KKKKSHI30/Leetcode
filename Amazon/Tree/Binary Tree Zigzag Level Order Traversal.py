@@ -173,3 +173,10 @@ tree1 = TreeNode(1,
 
 result = Solution5()
 t1 = result.zigzagLevelOrder(tree1)
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None

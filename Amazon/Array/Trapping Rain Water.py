@@ -56,31 +56,47 @@ class Solution2(object):
         return water
 
 
-# tips: using double pointer and assume left is always smaller than right to calculate water
-class Solution2:
+class Solution2:  # go over two times, one from left max and one for right max
     def trap(self, height):
-        """
-        :type height: List[int]
-        :rtype: int
-        """
-        areas = 0
-        max_l = max_r = 0
-        l = 0
-        r = len(height)-1
-        while l < r:
-            if height[l] < height[r]:
-                if height[l] > max_l:
-                    max_l = height[l]
+        n = len(height)
+        maxLeft, maxRight = [0] * n, [0] * n
+
+        for i in range(1, n):
+            maxLeft[i] = max(height[i - 1], maxLeft[i - 1])
+        for i in range(n - 2, -1, -1):
+            maxRight[i] = max(height[i + 1], maxRight[i + 1])
+
+        ans = 0
+        for i in range(n):
+            waterLevel = min(maxLeft[i], maxRight[i])
+            if waterLevel >= height[i]:
+                ans += waterLevel - height[i]
+        return ans
+
+# tips: using double pointer and assume left is always smaller than right to calculate water
+class Solution3:  # 48 ms, faster than 92.74%
+    def trap(self, height: List[int]) -> int:
+        if len(height) <= 2: return 0
+        n = len(height)
+        maxLeft, maxRight = height[0], height[n-1]
+        left, right = 1, n - 2
+        ans = 0
+        while left <= right:
+            if maxLeft < maxRight:
+                if height[left] > maxLeft:
+                    maxLeft = height[left]
                 else:
-                    areas += max_l - height[l]
-                l +=1
+                    ans += maxLeft - height[left]
+                left += 1
             else:
-                if height[r] > max_r:
-                    max_r = height[r]
+                if height[right] > maxRight:
+                    maxRight = height[right]
                 else:
-                    areas += max_r - height[r]
-                r -=1
-        return areas
+                    ans += maxRight - height[right]
+                right -= 1
+        return ans
+
+
 test = Solution()
 test.trap([0,1,0,2,1,0,1,3,2,1,2,1])
 test.trap([4,2,0,3,2,5])
