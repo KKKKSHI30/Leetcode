@@ -25,8 +25,8 @@ class Solution2(object):
             else:
                 dp[n] = i
                 print(f"dp is {dp}")
-
         return [-1, -1]
+
 
 a = Solution2()
 a.twoSum([2,7,11,15,3,6],9)

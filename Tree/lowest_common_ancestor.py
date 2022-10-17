@@ -21,7 +21,6 @@ def lowest_common_ancestor(head, n1, n2):
         cur2 = map[cur2]
     return cur2.element
 
-
 def ancestor(head, ancester_map):
     if head == None:
         return
