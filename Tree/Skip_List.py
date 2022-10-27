@@ -115,6 +115,92 @@ class SkipList(object):
                 node = node.forward[lvl]
             print("")
 
+    def deleteElement(self, search_key):
+
+        # create update array and initialize it
+        update = [None] * (self.MAXLVL + 1)
+        current = self.header
+
+        '''
+        start from highest level of skip list
+        move the current reference forward while key
+        is greater than key of node next to current
+        Otherwise inserted current in update and
+        move one level down and continue search
+        '''
+        for i in range(self.level, -1, -1):
+            while (current.forward[i] and \
+                   current.forward[i].key < search_key):
+                current = current.forward[i]
+            update[i] = current
+
+        '''
+        reached level 0 and advance reference to
+        right, which is possibly our desired node
+        '''
+        current = current.forward[0]
+
+        # If current node is target node
+        if current != None and current.key == search_key:
+
+            '''
+            start from lowest level and rearrange references
+            just like we do in singly linked list
+            to remove target node
+            '''
+            for i in range(self.level + 1):
+
+                '''
+                If at level i, next node is not target
+                node, break the loop, no need to move
+                further level
+                '''
+                if update[i].forward[i] != current:
+                    break
+                update[i].forward[i] = current.forward[i]
+
+            # Remove levels having no elements
+            while (self.level > 0 and \
+                   self.header.forward[self.level] == None):
+                self.level -= 1
+            print("Successfully deleted {}".format(search_key))
+
+    def searchElement(self, key):
+        current = self.header
+
+        '''
+        start from highest level of skip list
+        move the current reference forward while key
+        is greater than key of node next to current
+        Otherwise inserted current in update and
+        move one level down and continue search
+        '''
+        for i in range(self.level, -1, -1):
+            while (current.forward[i] and \
+                   current.forward[i].key < key):
+                current = current.forward[i]
+
+        # reached level 0 and advance reference to
+        # right, which is possibly our desired node
+        current = current.forward[0]
+
+        # If current node have key equal to
+        # search key, we have found our target node
+        if current and current.key == key:
+            print("Found key ", key)
+
+    # Display skip list level wise
+    def displayList(self):
+        print("\n*****Skip List******")
+        head = self.header
+        for lvl in range(self.level + 1):
+            print("Level {}: ".format(lvl), end=" ")
+            node = head.forward[lvl]
+            while (node != None):
+                print(node.key, end=" ")
+                node = node.forward[lvl]
+            print("")
+
 
 # Driver to test above code
 def main():
@@ -131,5 +217,11 @@ def main():
     lst.insertElement(25)
     lst.displayList()
 
+    # Search for node 19
+    lst.searchElement(19)
+
+    # Delete node 19
+    lst.deleteElement(19)
+    lst.displayList()
 
 main()
