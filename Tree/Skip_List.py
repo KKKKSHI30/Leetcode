@@ -103,18 +103,6 @@ class SkipList(object):
 
             print("Successfully inserted key {}".format(key))
 
-    # Display skip list level wise
-    def displayList(self):
-        print("\n*****Skip List******")
-        head = self.header
-        for lvl in range(self.level + 1):
-            print("Level {}: ".format(lvl), end=" ")
-            node = head.forward[lvl]
-            while (node != None):
-                print(node.key, end=" ")
-                node = node.forward[lvl]
-            print("")
-
     def deleteElement(self, search_key):
 
         # create update array and initialize it
