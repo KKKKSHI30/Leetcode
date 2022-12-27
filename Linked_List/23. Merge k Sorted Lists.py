@@ -5,7 +5,6 @@ class ListNode(object):
         self.val = val
         self.next = next
 
-
 class Solution(object):
     def mergeKLists(self, lists):
         """
@@ -68,8 +67,10 @@ class Solution2(object):
             point.next=l1
         return head.next
 
+
+
 a = ListNode(1, ListNode(4, ListNode(5)))
 b = ListNode(1, ListNode(3, ListNode(4)))
 c = ListNode(2, ListNode(6))
 test = Solution()
-d = test.mergeKLists([a, b, c])
+d = test.mergeKLists([a,b,c])
