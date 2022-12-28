@@ -4,7 +4,6 @@ class node:
         self.left = left
         self.right = right
 
-
 def morris(head):
     if head == None:
         return
