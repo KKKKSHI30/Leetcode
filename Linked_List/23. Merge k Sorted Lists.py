@@ -6,6 +6,7 @@ class ListNode(object):
         self.next = next
 
 class Solution(object):
+    # Optimize Approach 2 by Priority Queue
     def mergeKLists(self, lists):
         """
         :type lists: List[ListNode]
@@ -36,7 +37,7 @@ class Solution(object):
 
 
 class Solution2(object):
-    # divide and conquer method
+    # Merge with Divide And Conquer
     def mergeKLists(self, lists):
         """
         :type lists: List[ListNode]
@@ -74,3 +75,22 @@ b = ListNode(1, ListNode(3, ListNode(4)))
 c = ListNode(2, ListNode(6))
 test = Solution()
 d = test.mergeKLists([a,b,c])
+
+
+class Solution3(object):
+    # brute force, not recommended
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        self.nodes = []
+        head = point = ListNode(0)
+        for l in lists:
+            while l:
+                self.nodes.append(l.val)
+                l = l.next
+        for x in sorted(self.nodes):
+            point.next = ListNode(x)
+            point = point.next
+        return head.next
