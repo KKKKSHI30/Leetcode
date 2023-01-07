@@ -25,7 +25,7 @@ test = Solution()
 test.search([-1,0,3,5,9,12], 9)
 test.search([-1,0,3,5,9,12], 2)
 
-# Approach 2: Find Upper bound
+# Approach 2: Find Upper bound 左闭右开
 class Solution2:
     def search(self, nums, target):
         # Set the left and right boundaries
@@ -47,7 +47,7 @@ test = Solution2()
 test.search([-1,0,3,5,9,12], -1)
 test.search([-1,0,3,5,9,12], 2)
 
-# Approach 3: Find Lower bound
+# Approach 3: Find Lower bound 左闭右开
 class Solution3:
     def search(self, nums, target):
         # Set the left and right boundaries
