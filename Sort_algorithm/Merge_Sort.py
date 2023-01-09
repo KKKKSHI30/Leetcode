@@ -41,6 +41,7 @@ def merge(nums,left,mid,right):
             j += 1
         elif j == (right + 1):
             lst.append(nums[i])
+            i += 1
         elif nums[i] <= nums[j]:
             lst.append(nums[i])
             i += 1
@@ -52,7 +53,7 @@ def merge(nums,left,mid,right):
         left += 1
     return lst
 
-A = [38,27,43,3,9,82,10]
+A = [-2,3,-5]
 merge_sort(A)
 
 
