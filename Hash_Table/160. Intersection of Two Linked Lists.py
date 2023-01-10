@@ -43,3 +43,16 @@ a = ListNode(2, ListNode(6, ListNode(4)))
 b = ListNode(1, ListNode(5))
 test = Solution2()
 test.getIntersectionNode(a, b)
+
+
+class Solution3:
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
+        while headA is not None:
+            pB = headB
+            while pB is not None:
+                if headA == pB:
+                    return headA
+                pB = pB.next
+            headA = headA.next
+
+        return None
