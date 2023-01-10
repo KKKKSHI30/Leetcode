@@ -17,3 +17,10 @@ class Solution(object):
             p1 = p1.next.next
             p2 = p2.next
         return p2
+
+class Solution2:
+    def middleNode(self, head: ListNode) -> ListNode:
+        arr = [head]
+        while arr[-1].next:
+            arr.append(arr[-1].next)
+        return arr[len(arr) // 2]
