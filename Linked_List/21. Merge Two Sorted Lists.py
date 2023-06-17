@@ -4,6 +4,10 @@ class ListNode(object):
         self.val = val
         self.next = next
 
+# Iterative Approach (best approach):
+# Time: O(m+n)
+# Space: O(n)
+# 2023.06.17: yes
 class Solution(object):
     def mergeTwoLists(self, list1, list2):
         """
@@ -11,66 +15,42 @@ class Solution(object):
         :type list2: Optional[ListNode]
         :rtype: Optional[ListNode]
         """
-        dummy_head = ListNode(-1)
-        cur = dummy_head
+        dummy_head = return_point = ListNode(-1)
         while list1 and list2:
-            if list1.val >= list2.val:
-                cur.next = list2
-                cur = cur.next
-                list2 = list2.next
-            else:
-                cur.next = list1
-                cur = cur.next
+            if list1.val <= list2.val:
+                dummy_head.next = list1
                 list1 = list1.next
+            else:
+                dummy_head.next = list2
+                list2 = list2.next
+            dummy_head = dummy_head.next
         if list1:
-            cur.next = list1
+            dummy_head.next = list1
         if list2:
-            cur.next = list2
-        return dummy_head.next
+            dummy_head.next = list2
+        return return_point.next
 
+# Recursion Approach:
+# Time: O(m+n)
+# Space: O(m+n)
+# 2023.06.17: no
 class Solution2(object):
     def mergeTwoLists(self, list1, list2):
-        """
-        :type list1: Optional[ListNode]
-        :type list2: Optional[ListNode]
-        :rtype: Optional[ListNode]
-        """
-        head = ListNode(-1)
-        cur = head
-        while list1 and list2:
-            if list1.val < list2.val:
-                cur.next = list1
-                list1 = list1.next
-                cur = cur.next
-            else:
-                cur.next = list2
-                list2 = list2.next
-                cur = cur.next
-        if list2:
-            cur.next = list2
-        if list1:
-            cur.next = list1
-        return head.next
-
-class Solution3:
-    # recursion method, not good
-    def mergeTwoLists(self, l1, l2):
-        if l1 is None:
-            return l2
-        elif l2 is None:
-            return l1
-        elif l1.val < l2.val:
-            l1.next = self.mergeTwoLists(l1.next, l2)
-            return l1
+        if not list1:
+            return list2
+        if not list2:
+            return list1
+        if list1.val <= list2.val:
+            list1.next = self.mergeTwoLists(list1.next,list2)
+            return list1
         else:
-            l2.next = self.mergeTwoLists(l1, l2.next)
-            return l2
+            list2.next = self.mergeTwoLists(list1,list2.next)
+            return list2
 
-
-a = ListNode(1, ListNode(2, ListNode(4)))
-b = ListNode(1, ListNode(3, ListNode(4)))
-
-test = Solution()
+# Test Cases:
+a = ListNode(2)
+b = ListNode(1, ListNode(3))
+test = Solution2()
 c = test.mergeTwoLists(a, b)
 d = test.mergeTwoLists([],[])
 

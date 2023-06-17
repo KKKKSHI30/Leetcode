@@ -4,6 +4,12 @@ class ListNode(object):
         self.val = x
         self.next = next
 
+
+
+
+
+
+"""
 class Solution:
     def hasCycle(self, head):
         if not head:
@@ -49,3 +55,4 @@ b = ListNode(2, a)
 # a.next.next = b
 test2 = Solution2()
 test2.hasCycle(a)
+"""

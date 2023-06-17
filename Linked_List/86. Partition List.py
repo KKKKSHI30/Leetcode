@@ -4,6 +4,10 @@ class ListNode(object):
         self.val = val
         self.next = next
 
+# Two Pointers Approach (best approach):
+# Time: O(n)
+# Space: O(1)
+# 2023.06.17: yes
 class Solution(object):
     def partition(self, head, x):
         """
@@ -11,22 +15,18 @@ class Solution(object):
         :type x: int
         :rtype: ListNode
         """
-        dummy_head = ListNode(-1)
-        cur = dummy_head
-        dummy_head2 = ListNode(-1)
-        cur2 = dummy_head2
+        dummy_small = cur_small = ListNode(-1)
+        dummy_large = cur_large = ListNode(-1)
         while head:
-            if head.val < x:
-                cur.next = head
-                head = head.next
-                cur = cur.next
+            if head.val >= x:
+                cur_large.next = ListNode(head.val)
+                cur_large = cur_large.next
             else:
-                cur2.next = head
-                head = head.next
-                cur2 = cur2.next
-        cur2.next = None
-        cur.next = dummy_head2.next
-        return dummy_head.next
+                cur_small.next = ListNode(head.val)
+                cur_small = cur_small.next
+            head = head.next
+        cur_small.next = dummy_large.next
+        return dummy_small.next
 
 
 a = ListNode(1, ListNode(4, ListNode(3, ListNode(2, ListNode(5, ListNode(2))))))
