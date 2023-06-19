@@ -1,6 +1,7 @@
 # Doubly Linked List
 # Time: O(1) for get and put
 # Space: O(capactiy)
+# 2023.06.17: yes
 # notes: LRU本质上是用了DoubleLinkedList 和hash map来做到get, put都为O(1)
 # 所以在新加nodes的时候，要考虑同时更新两个节点
 # 另一个技巧就是，linked list在更新头尾的时候，非常麻烦，可以用dummy head, dummy tail去解决
@@ -69,19 +70,6 @@ class LRUCache(object):
             del self.dic[node_to_delete.key]
 
 
-# Test
-obj = LRUCache(2)
-obj.put(1,1)
-obj.put(2,2)
-obj.get(1)
-obj.put(3,3)
-obj.get(2)
-obj.put(4,4)
-obj.get(3)
-obj.get(4)
-
-
-
 
 # Built-in Approach:
 # Time: O(1) for get and put
@@ -119,3 +107,18 @@ class LRUCache(object):
         self.dic[key] = value
         if len(self.dic) > self.capacity:
             self.dic.popitem(False)
+
+
+# Test
+obj = LRUCache(2)
+obj.put(1,1)
+obj.put(2,2)
+obj.get(1)
+obj.put(3,3)
+obj.get(2)
+obj.put(4,4)
+obj.get(3)
+obj.get(4)
+
+
+
