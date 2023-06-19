@@ -70,6 +70,7 @@ class Solution:
 # 2023.06.19: no
 # notes: labuladong的方法，比标答更好，很容易理解
 # 核心思想是把终止条件改一下，以前是到None为止停止翻转，现在是到next node不需要翻转的时候停，很巧妙
+# 简洁又好用，牛
 class Solution3(object):
     # 反转区间 [a, b) 的元素，注意是左闭右开,重点
     def reverse(self, a, b):
