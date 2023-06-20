@@ -1,3 +1,7 @@
+# Caching Approach (best approach):
+# Time: O(n)
+# Space: O(1)
+# 2023.06.19: yes
 class NumArray(object):
 
     def __init__(self, nums):
@@ -5,16 +9,9 @@ class NumArray(object):
         :type nums: List[int]
         """
         self.nums = nums
-        self.block = self.sum_all()
-
-    def sum_all(self):
-        total = 0
-        block = []
-        for i in range(len(self.nums)):
-            total += self.nums[i]
-            block.append(total)
-        return block
-
+        self.sum_nums = [0]
+        for i in range(len(nums)):
+            self.sum_nums.append(self.sum_nums[i] + nums[i])
 
     def sumRange(self, left, right):
         """
@@ -22,10 +19,9 @@ class NumArray(object):
         :type right: int
         :rtype: int
         """
-        if left == 0:
-            return self.block[right]
-        else:
-            return self.block[right] - self.block[left-1]
+        return self.sum_nums[right+1] - self.sum_nums[left]
+
+
 
 # Your NumArray object will be instantiated and called as such:
 nums = [-2, 0, 3, -5, 2, -1]

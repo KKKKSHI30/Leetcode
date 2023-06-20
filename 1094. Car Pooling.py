@@ -1,41 +1,8 @@
-class Solution(object):
-    def carPooling(self, trips, capacity):
-        """
-        :type trips: List[List[int]]
-        :type capacity: int
-        :rtype: bool
-        """
-        block = [0 for _ in range(1001)]
-        for i in range(len(trips)):
-            numPassengers, from_pos, to_pos = trips[i]
-            for j in range(from_pos, to_pos):
-                if block[j] + numPassengers > capacity:
-                    return False
-                else:
-                    block[j] += numPassengers
-        return True
-
-class Solution2(object):
-    def carPooling(self, trips, capacity):
-        self.trips = trips
-        difference_block = self.difference()
-        ori_block = [0 for _ in range(1002)]
-        for i in range(len(difference_block)):
-            ori_block[i] = ori_block[i-1] + difference_block[i]
-            if ori_block[i] > capacity:
-                return False
-        return True
-
-    def difference(self):
-        block = [0 for _ in range(1001)]
-        for i in range(len(self.trips)):
-            numPassengers, from_pos, to_pos = self.trips[i]
-            block[from_pos] += numPassengers
-            block[to_pos] -= numPassengers
-        return block
-
-class Solution3:
-    # split the trips into a sublist and sort to check
+# Time Stamp Approach:
+# Time: O(nlogn)
+# Space: O(n)
+# 2023.06.19: yes
+class Solution2:
     def carPooling(self, trips, capacity):
         timestamp = []
         for trip in trips:
@@ -52,8 +19,12 @@ class Solution3:
 
         return True
 
-class Solution4:
-    # similar as my way, but very easy code
+# Bucket Sort Approach:
+# Time: O(n)
+# Space: O(1)
+# 2023.06.19: yes
+# notes: 只需要检查变化中的内容就可以了，不需要整个1000个都检查
+class Solution3:
     def carPooling(self, trips, capacity):
         timestamp = [0] * 1001
         for trip in trips:
@@ -68,7 +39,27 @@ class Solution4:
 
         return True
 
-test = Solution3()
-test.carPooling([[9,0,1],[3,3,7]], 4)
+class Solution(object):
+    def carPooling(self, trips, capacity):
+        """
+        :type trips: List[List[int]]
+        :type capacity: int
+        :rtype: bool
+        """
+        diff_arr = [0] * 1001
+        result_arr = [0] * 1001
+        for trip in trips:
+            passenger, start, end = trip
+            diff_arr[start] += passenger
+            if end < len(diff_arr):
+                diff_arr[end] -= passenger
+            for i in range(len(diff_arr)):
+                result_arr[i] = result_arr[i-1] + diff_arr[i]
+                if result_arr[i] > capacity:
+                    return False
+        return True
+
+test = Solution()
 test.carPooling([[2,1,5],[3,3,7]], 4)
 test.carPooling([[2,1,5],[3,3,7]], 5)
+test.carPooling([[9,0,1],[3,3,7]], 4)

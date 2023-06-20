@@ -1,13 +1,61 @@
-class Solution:
-    # similar way as mine
+# Reverse the Whole String and Then Reverse Each Word
+# Time: O(n)
+# Space: O(n)
+# 2023.06.19: no
+# notes: 知道想法之后，立刻就写出来了，想法很难想到
+class Solution(object):
+    def trim_zeros(self, s):
+        result = []
+        for i in range(len(s)-1):
+            if (s[i] == ' ' and s[i+1] != ' ') or (s[i] != ' '):
+                result.append(s[i])
+        result.append(s[len(s)-1])
+        if result[0] == ' ':
+            result.pop(0)
+        if result[-1] == ' ':
+            result.pop(-1)
+        return result
+
+    def reverse(self, s, left, right):
+        while left < right:
+            s[left], s[right] = s[right], s[left]
+            left, right = left + 1, right - 1
+        return s
+
     def reverseWords(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        s = self.trim_zeros(s)
+        s = self.reverse(s,0,len(s)-1)
+        start = end = 0
+        while start < len(s):
+            while end < len(s) and s[end] != ' ':
+                end += 1
+            print(start, end)
+            self.reverse(s, start, end-1)
+            start = end+1
+            end += 1
+        return ''.join(s)
+
+
+# Built-in Split + Reverse
+# Time: O(n)
+# Space: O(n)
+# 2023.06.19: yes
+class Solution2:
+    def reverseWords(self, s: str) -> str:
         return " ".join(reversed(s.split()))
 
 
+# Deque of Words
+# Time: O(n)
+# Space: O(n)
+# 2023.06.19: no
 from collections import deque
-# very smart way
-class Solution2:
-    def reverseWords(self, s):
+class Solution3:
+    def reverseWords(self, s: str) -> str:
         left, right = 0, len(s) - 1
         # remove leading spaces
         while left <= right and s[left] == ' ':
@@ -30,45 +78,11 @@ class Solution2:
 
         return ' '.join(d)
 
-
-class Solution3:
-    def trim_spaces(self, s):
-        left, right = 0, len(s) - 1
-        while left <= right and s[left] == ' ':
-            left += 1
-        while left <= right and s[right] == ' ':
-            right -= 1
-
-        output = []
-        while left <= right:
-            if s[left] != ' ':
-                output.append(s[left])
-            elif output[-1] != ' ':
-                output.append(s[left])
-            left += 1
-        return output
-
-    def reverse(self, l, left, right):
-        while left < right:
-            l[left], l[right] = l[right], l[left]
-            left, right = left + 1, right - 1
-
-    def reverse_each_word(self, l):
-        n = len(l)
-        start = end = 0
-        while start < n:
-            while end < n and l[end] != ' ':
-                end += 1
-            self.reverse(l, start, end - 1)
-            start = end + 1
-            end += 1
-
-    def reverseWords(self, s):
-        l = self.trim_spaces(s)
-        self.reverse(l, 0, len(l) - 1)
-        self.reverse_each_word(l)
-        return ''.join(l)
-
-
+# Tests:
 test = Solution3()
-test.reverseWords("  hello world  ")
+test.reverseWords("  hello     world  ")
+test.trim_zeros("  hello     world  ")
+test.reverse(['h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd'], 0, 10)
+
+
+
