@@ -1,6 +1,8 @@
-# Approach 1: Find the Exact Value
-from bisect import bisect_right, bisect
-
+# Find the Exact Value Approach
+# Time: O(logn)
+# Space: O(1)
+# 2023.06.21: yes
+from bisect import bisect_right
 
 class Solution(object):
     def search(self, nums, target):
@@ -9,77 +11,77 @@ class Solution(object):
         :type target: int
         :rtype: int
         """
-        left = 0
-        right = len(nums)-1
-        while left <= right:   # <= is because right = len(nums) -1 , is closed interval
-            mid = int(left + (right - left) / 2)
+        left, right = 0, len(nums)-1
+        while left <= right: # <= is because right = len(nums) -1 , is closed interval
+            mid = (left + right)//2
             if nums[mid] == target:
                 return mid
             elif nums[mid] < target:
-                left = mid + 1
+                left = mid +1
             elif nums[mid] > target:
-                right = mid - 1
+                right = mid-1
         return -1
 
-test = Solution()
-test.search([-1,0,3,5,9,12], 9)
-test.search([-1,0,3,5,9,12], 2)
-
-# Approach 2: Find Upper bound
-class Solution2:
+# Find Lower bound Approach
+# Time: O(logn)
+# Space: O(1)
+# 2023.06.21: no
+# notes: 重点是考虑结束的情况，边界情况
+class Solution2(object):
     def search(self, nums, target):
-        # Set the left and right boundaries
-        left = 0
-        right = len(nums)
-
-        while left < right:
-            mid = (left + right) // 2
-            if nums[mid] <= target:
-                left = mid + 1
-            else:
-                right = mid
-
-        if left > 0 and nums[left - 1] == target:
-            return left - 1
-        else:
-            return -1
-test = Solution2()
-test.search([-1,0,3,5,9,12], -1)
-test.search([-1,0,3,5,9,12], 2)
-
-# Approach 3: Find Lower bound
-class Solution3:
-    def search(self, nums, target):
-        # Set the left and right boundaries
-        left = 0
-        right = len(nums) - 1
-
-        while left < right:
-            mid = (left + right) // 2
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        """
+        left, right = 0, len(nums)-1
+        while left <= right:
+            mid = (left + right)//2
             if nums[mid] >= target:
-                right = mid
-            else:
-                left = mid + 1
-
-        if left < len(nums) and nums[left] == target:
-            return left
-        else:
+                right = mid-1
+            elif nums[mid] < target:
+                left = mid +1
+        if left < 0 or left >= len(nums):
             return -1
-test = Solution3()
-test.search([-1,0,3,5,9,12], 3)
-test.search([-1,0,3,5,9,12], 12)
+        return left if nums[left] == target else -1
 
-# Approach 4: Use built-in tools.
+# Find Upper bound Approach
+# Time: O(logn)
+# Space: O(1)
+# 2023.06.21: no
+class Solution3(object):
+    def search(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        """
+        left, right = 0, len(nums) -1
+        while left <= right:
+            mid = (left + right) //2
+            if nums[mid] > target:
+                right = mid -1
+            elif nums[mid] <= target:
+                left = mid +1
+        # right = left -1
+        if right < 0 or right >= len(nums):
+            return -1
+        return right if nums[right] == target else -1
+
+
+# Use built-in tools Approach
+# Time: O(logn)
+# Space: O(1)
+# 2023.06.21: no
 class Solution4:
     def search(self, nums, target):
-        # Find the insertion position `idx`.
         idx = bisect_right(nums, target)
-
         if idx > 0 and nums[idx - 1] == target:
             return idx - 1
         else:
             return -1
 
+# Tests:
 test = Solution4()
-test.search([-1,0,3,5,9,12], 3)
-test.search([-1,0,3,5,9,12], 12)
+test.search([-1,0,3,3,3,5,9,12], 3)
+test.search([-1,0,3,5,9,12], 9)

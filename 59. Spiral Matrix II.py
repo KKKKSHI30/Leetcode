@@ -1,50 +1,66 @@
-class Solution:
+# Traverse Layer by Layer in Spiral Form
+# Time: O(n^2)
+# Space: O(1)
+# 2023.06.20: yes
+# notes: 就是我写的复杂了点，但是思路是一样的
+class Solution(object):
     def generateMatrix(self, n):
-        ans = [[0] * n for _ in range(n)]
-        DIR = [
-            0,
-            1,
-            0,
-            -1,
-            0,
-        ]  # (r + DIR[i], c + DIR[i+1]) corresponding to move [RIGHT, DOWN, LEFT, TOP]
-        r, c = 0, 0  # start at cell (0, 0)
-        d = 0  # start with RIGHT direction
-        for num in range(1, n * n + 1):
-            nr, nc = r + DIR[d], c + DIR[d + 1]
-            if (
-                not 0 <= nr < n or not 0 <= nc < n or ans[nr][nc] != 0
-            ):  # If out of bound or already visited
-                d = (d + 1) % 4  # Change next direction
-                nr, nc = r + DIR[d], c + DIR[d + 1]
+        """
+        :type n: int
+        :rtype: List[List[int]]
+        """
+        visited = [[False for _ in range(n)] for _ in range(n)]
+        visited[0][0] = 1
+        check1, check2, check3, check4 = True, True, True, True
+        i, j, k = 0, 0, 2
+        while True:
+            while j+1 < n and visited[i][j+1] == 0:
+                j += 1
+                visited[i][j] = k
+                k += 1
+                check1 = False
+            while i+1 < n and visited[i+1][j] == 0:
+                i += 1
+                visited[i][j] = k
+                k += 1
+                check2 = False
+            while j-1 >= 0 and visited[i][j-1] == 0:
+                j -= 1
+                visited[i][j] = k
+                k += 1
+                check3 = False
+            while i-1 >= 0 and visited[i-1][j] == 0:
+                i -= 1
+                visited[i][j] = k
+                k+= 1
+                check4 = False
+            if check1 and check2 and check3 and check4:
+                return visited
+            check1, check2, check3, check4 = True, True, True, True
 
-            ans[r][c] = num
-            r, c = nr, nc
-
-        return ans
-
-
-class Solution2(object):
+# Optimized spiral traversal
+# Time: O(n^2)
+# Space: O(1)
+# 2023.06.20: no
+class Solution2:
     def generateMatrix(self, n):
-        if not n:
-            return []
-        res = [[0 for _ in range(n)] for _ in range(n)]
-        left, right, top, down, num = 0, n - 1, 0, n - 1, 1
-        while left <= right and top <= down:
-            for i in range(left, right + 1):
-                res[top][i] = num
-                num += 1
-            top += 1
-            for i in range(top, down + 1):
-                res[i][right] = num
-                num += 1
-            right -= 1
-            for i in range(right, left - 1, -1):
-                res[down][i] = num
-                num += 1
-            down -= 1
-            for i in range(down, top - 1, -1):
-                res[i][left] = num
-                num += 1
-            left += 1
-        return res
+        result = [[0] * n for _ in range(n)]
+        cnt = 1
+        directions = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+        d = 0
+        row = 0
+        col = 0
+        while cnt <= n * n:
+            result[row][col] = cnt
+            cnt += 1
+            r = (row + directions[d][0]) %n
+            c = (col + directions[d][1]) % n
+            if result[r][c] != 0:
+                d = (d + 1) % 4
+            row += directions[d][0]
+            col += directions[d][1]
+        return result
+
+
+test = Solution2()
+test.generateMatrix(3)
