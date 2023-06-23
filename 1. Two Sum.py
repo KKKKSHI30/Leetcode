@@ -1,3 +1,7 @@
+# Frequency Counter Approach
+# Time: O(n)
+# Space: O(1)
+# 2023.06.23: yes
 class Solution(object):
     def twoSum(self, nums, target):
         """
