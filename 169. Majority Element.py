@@ -1,39 +1,43 @@
-import collections
+# Sorting Approach
+# Time: O(nlogn)
+# Space: O(1)
+# 2023.06.24: yes
+# 纯傻逼。。。大于一半sort直接取中点。。。
 class Solution(object):
-    # 虽然是easy,但是也是自己写出来哒，嘿嘿
     def majorityElement(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
-        min_len = len(nums)//2
-        d = collections.defaultdict(list)
-        for i in nums:
-            if i not in d:
-                d[i] = 1
-                if d[i] > min_len:
-                    return i
+        length = len(nums)//2+1
+        nums.sort()
+        count = 1
+        if len(nums) == 1:
+            return nums[0]
+        for i in range(1, len(nums)+1):
+            if count >= length:
+                return nums[i-1]
+            if nums[i] == nums[i-1]:
+                count += 1
             else:
-                d[i] += 1
-                if d[i] > min_len:
-                    return i
+                count = 1
 
+# Sorting Approach
+# Time: O(nlogn)
+# Space: O(1)
+# 2023.06.24: yes
 class Solution2:
-    # same methods as mine
-    def majorityElement(self, nums):
-        counts = collections.Counter(nums)
-        return max(counts.keys(), key=counts.get)
-
-class Solution3:
-    # since the length is over half, so middle will be the answer after sorting
     def majorityElement(self, nums):
         nums.sort()
         return nums[len(nums)//2]
 
 
-class Solution4:
-    # bit methods, check each bit is majority or not, if yes, add that bit number
-    def majorityElement(self, nums):
+# Bit Manipulation Approach
+# Time: O(nlogc)
+# Space: O(1)
+# 2023.06.24: no
+class Solution3:
+    def majorityElement(self, nums) -> int:
         n = len(nums)
         majority_element = 0
 
@@ -64,9 +68,13 @@ class Solution4:
 
         return majority_element
 
+# Randomization Approach
+# Time: O(infinite), but average is 2
+# Space: O(1)
+# 2023.06.24: no
 import random
-class Solution5:
-    # space is O(1), check randominize
+
+class Solution4:
     def majorityElement(self, nums):
         majority_count = len(nums)//2
         while True:
@@ -74,8 +82,11 @@ class Solution5:
             if sum(1 for elem in nums if elem == candidate) > majority_count:
                 return candidate
 
-class Solution6:
-    # divide and conquer methods, recursion methods
+# Divide and Conquer
+# Time: O(logn)
+# Space: O(logn)
+# 2023.06.24: no
+class Solution5:
     def majorityElement(self, nums, lo=0, hi=None):
         def majority_element_rec(lo, hi):
             # base case; the only element in an array of size 1 is the majority
@@ -100,7 +111,13 @@ class Solution6:
 
         return majority_element_rec(0, len(nums)-1)
 
-class Solution7:
+
+# Boyer-Moore Voting Algorithm (best approach)
+# Time: O(n)
+# Space: O(1)
+# 2023.06.24: no
+# notes: 最强方法真的
+class Solution6:
     def majorityElement(self, nums):
         count = 0
         candidate = None
@@ -115,7 +132,9 @@ class Solution7:
 nums = [3,2,3]
 nums2 = [2,2,1,1,1,2,2]
 nums3 = [1]
-test = Solution7()
+nums4 = [3,3,4]
+test = Solution3()
+test.majorityElement(nums4)
 test.majorityElement(nums2)
 test.majorityElement(nums)
 test.majorityElement(nums3)

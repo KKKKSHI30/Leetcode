@@ -1,36 +1,8 @@
-class Solution(object):
-    def sortColors(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: None Do not return anything, modify nums in-place instead.
-        """
-        i, j = 0, len(nums)-1
-        cur = 0
-        while i < j and cur <= j:
-            if nums[cur] == 0:
-                nums[i], nums[cur] = nums[cur], nums[i]
-                i += 1
-                cur += 1
-            elif nums[cur] == 1:
-                cur += 1
-            else:
-                nums[cur], nums[j] = nums[j], nums[cur]
-                j -= 1
-        return nums
-
-
-nums = [2,0,2,1,1,0]
-nums2 = [2,0,1]
-nums3 = [1,1,0,0,2,2]
-test = Solution()
-test.sortColors(nums)
-test.sortColors(nums2)
-test.sortColors(nums3)
-
-
-
-
-
+# One Pass Algorithm (best approach)
+# Time: O(n)
+# Space: O(1)
+# 2023.06.24: yes
+# notes: 就是荷兰国旗问题，一个头，一个尾
 class Solution:
     def sortColors(self, nums):
         """
@@ -52,5 +24,18 @@ class Solution:
                 p2 -= 1
             else:
                 curr += 1
+
+# Tests:
+nums = [2,0,2,1,1,0]
+nums2 = [2,0,1]
+nums3 = [1,1,0,0,2,2]
+test = Solution()
+test.sortColors(nums)
+test.sortColors(nums2)
+test.sortColors(nums3)
+
+
+
+
 
 

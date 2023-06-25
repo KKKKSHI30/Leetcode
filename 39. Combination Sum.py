@@ -1,26 +1,29 @@
+# Backtracking (best approach)
+# Time: O(n^(t/m+1)), t/m is height
+# Space: O(t/m)
+# 2023.06.24:
 class Solution(object):
+    # start 是起始 index
+    def backtrack(self, candidates, results, combination, start, remain):
+        if remain < 0:
+            return results
+        elif remain == 0:
+            return results.append(combination[:]) # deep copy
+        for i in range(start, len(candidates)):
+            combination.append(candidates[i])
+            self.backtrack(candidates, results, combination, i, remain-candidates[i])
+            combination.pop()
+        return results
+
     def combinationSum(self, candidates, target):
         """
         :type candidates: List[int]
         :type target: int
         :rtype: List[List[int]]
         """
-        results = []
-        cur = []
-        start = 0
-        self.backtracking(candidates, cur, target, results, start)
-        return results
+        result = self.backtrack(candidates, [], [], 0, target)
+        return result
 
-    def backtracking(self, candidates, cur, target, results, start):
-        if sum(cur) == target:
-            results.append(cur[:])
-            return
-        elif sum(cur) > target:
-            return
-        for i in range(start, len(candidates)):
-            cur.append(candidates[i])
-            self.backtracking(candidates, cur, target, results, i)
-            cur.pop()
 
 test = Solution()
 test.combinationSum([2,3,6,7], 7)

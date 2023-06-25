@@ -1,5 +1,8 @@
+# Two Pointers Approach
+# Time: O(n^2)
+# Space: O(logn)
+# 2023.06.24: yes
 class Solution:
-    # two pointer solution
     def threeSum(self, nums):
         res = []
         nums.sort()
@@ -25,32 +28,11 @@ class Solution:
                 while lo < hi and nums[lo] == nums[lo - 1]:
                     lo += 1
 
+# Hashset Approach
+# Time: O(n^2)
+# Space: O(n)
+# 2023.06.24: yes
 class Solution2:
-    # hashset
-    def threeSum(self, nums):
-        res = []
-        nums.sort()
-        for i in range(len(nums)):
-            if nums[i] > 0:
-                break
-            if i == 0 or nums[i - 1] != nums[i]:
-                self.twoSum(nums, i, res)
-        return res
-
-    def twoSum(self, nums, i, res):
-        seen = set()
-        j = i + 1
-        while j < len(nums):
-            complement = -nums[i] - nums[j]
-            if complement in seen:
-                res.append([nums[i], nums[j], complement])
-                while j + 1 < len(nums) and nums[j] == nums[j + 1]:
-                    j += 1
-            seen.add(nums[j])
-            j += 1
-
-class Solution3:
-    # no-sort
     def threeSum(self, nums):
         res, dups = set(), set()
         seen = {}
@@ -64,13 +46,30 @@ class Solution3:
                     seen[val2] = i
         return res
 
+# "No-Sort" Approach
+# Time: O(n^2)
+# Space: O(n)
+# 2023.06.24: yes
+class Solution3:
+    def threeSum(self, nums):
+        res, dups = set(), set()
+        seen = {}
+        for i, val1 in enumerate(nums):
+            if val1 not in dups:
+                dups.add(val1)
+                for j, val2 in enumerate(nums[i+1:]):
+                    complement = -val1 - val2
+                    if complement in seen and seen[complement] == i:
+                        res.add(tuple(sorted((val1, val2, complement))))
+                    seen[val2] = i
+        return res
+
+
+# Tests:
 nums = [-1,0,1,2,-1,-4,-2,-3,3,0,4]
-test3 = Solution3()
-test3.threeSum(nums)
 test = Solution()
 test.threeSum(nums)
-test2 = Solution2()
-test2.threeSum(nums)
+
 
 
 

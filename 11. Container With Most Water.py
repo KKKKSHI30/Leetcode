@@ -1,16 +1,9 @@
+# Two Pointer Algorithm (best approach)
+# Time: O(n)
+# Space: O(1)
+# 2023.06.24: no
+# notes: 这个证明有点玄，但是就是two pointer,指针永远从矮的往高的走，因为往中间走的时候，只有越来越高才会beneficial
 class Solution:
-    # brute force methods, same as me
-    def maxArea(self, height):
-        maxarea = 0
-        for left in range(len(height)):
-            for right in range(left + 1, len(height)):
-                width = right - left
-                maxarea = max(maxarea, min(height[left], height[right]) * width)
-        return maxarea
-
-
-class Solution2:
-    # double pointer
     def maxArea(self, height):
         maxarea = 0
         left = 0
@@ -27,5 +20,3 @@ class Solution2:
 
 test = Solution()
 test.maxArea([1,8,6,2,5,4,8,3,7])
-test2 = Solution2()
-test2.maxArea([1,8,6,2,5,4,8,3,7])

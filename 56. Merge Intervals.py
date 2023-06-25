@@ -1,29 +1,31 @@
-import collections
-
-
+# Sorting Approach (best approach)
+# Time: O(nlogn)
+# Space: O(logn)
+# 2023.06.24: yes
 class Solution(object):
-    # 自己做出来啦，好开心嘿嘿
     def merge(self, intervals):
         """
         :type intervals: List[List[int]]
         :rtype: List[List[int]]
         """
-        results = []
-        intervals = sorted(intervals, key=lambda x: x[0])
-        temp = []
-        for i, n in enumerate(intervals):
-            if len(temp) == 0:
-                temp = n
+        intervals.sort()
+        if intervals == [] or intervals == [[]]:
+            return intervals
+        results = [intervals[0]]
+        for i in range(1,len(intervals)):
+            if intervals[i][0] <= results[-1][1]:
+                results[-1][1] = max(intervals[i][1], results[-1][1])
             else:
-                if n[0] <= temp[1]:
-                    temp[1] = max(temp[1], n[1])
-                else:
-                    results.append(temp)
-                    temp = n
-        results.append(temp)
+                results.append(intervals[i])
         return results
 
-class Solution3:
+
+# Connected Components Approach
+# Time: O(n^2)
+# Space: O(n^2)
+# 2023.06.24: no
+import collections
+class Solution2:
     def overlap(self, a, b):
         return a[0] <= b[1] and b[0] <= a[1]
 
@@ -78,30 +80,11 @@ class Solution3:
         return [self.mergeNodes(nodes_in_comp[comp]) for comp in range(number_of_comps)]
 
 
-class Solution2:
-    # same solution as me
-    def merge(self, intervals):
-
-        intervals.sort(key=lambda x: x[0])
-
-        merged = []
-        for interval in intervals:
-            # if the list of merged intervals is empty or if the current
-            # interval does not overlap with the previous, simply append it.
-            if not merged or merged[-1][1] < interval[0]:
-                merged.append(interval)
-            else:
-            # otherwise, there is overlap, so we merge the current and previous
-            # intervals.
-                merged[-1][1] = max(merged[-1][1], interval[1])
-
-        return merged
-
+# Tests:
 intervals = [[8,10],[1,3],[2,6],[15,18]]
 intervals2 = [[1,4],[4,5]]
 intervals3 = [[1,3]]
-test = Solution3()
+test = Solution2()
 test.merge(intervals)
 test.merge(intervals3)
 test.merge(intervals2)
-
