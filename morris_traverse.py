@@ -11,14 +11,14 @@ def morris(head):
     while cur != None:
         most_right = cur.left
         if most_right != None:  # there is left tree
-            while most_right.right != None and most_right.right != cur:
+            while most_right.right != None and most_right.right != cur:   # find the most right on the left tree
                 most_right = most_right.right
-            if most_right.right == None:
+            if most_right.right == None:   # and let it point back to the root
                 most_right.right = cur
-                cur = cur.left
+                cur = cur.left           # cur goes left
                 continue
             else:
-                most_right.right = None
+                most_right.right = None      # let the pointer back to none, keep to the original tree
         cur = cur.right  # no left tree
 
 
