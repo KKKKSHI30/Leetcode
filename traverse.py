@@ -2,6 +2,7 @@
 
 from queue import LifoQueue
 
+
 class node:
     def __init__(self, element, left = None, right = None):
         self.element = element
