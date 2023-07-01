@@ -11,7 +11,7 @@ class Solution(object):
 
         def merge(nums, left, mid, right):
             temp = []
-            start_left, start_right = left, mid+1
+            start_left, start_right = left, mid + 1
             end_left, end_right = mid, right
             while start_left <= end_left and start_right <= end_right:
                 if nums[start_left] <= nums[start_right]:
@@ -26,20 +26,20 @@ class Solution(object):
             while start_right <= end_right:
                 temp.append(nums[start_right])
                 start_right += 1
-            nums[left:right+1] = temp[:]
-
+            nums[left:right + 1] = temp[:]
 
         def process(nums, left, right):
             if left < right:
-                mid = (left + right) //2
+                mid = (left + right) // 2
                 process(nums, left, mid)
-                process(nums, mid+1, right)
+                process(nums, mid + 1, right)
                 merge(nums, left, mid, right)
             return nums
 
         if len(nums) == 1 or len(nums) == 1:
             return nums
-        return process(nums, 0, len(nums)-1)
+        return process(nums, 0, len(nums) - 1)
+
 
 # Heap sort Approach
 # Time: O(nlogn)
@@ -48,7 +48,7 @@ class Solution(object):
 # notes: 直接看notes太多了
 class Solution2(object):
     def sortArray(self, nums):
-				# heapify，把当前节点插入到大根堆里并且在正确的位置（从index开始做heapify）
+        # heapify，把当前节点插入到大根堆里并且在正确的位置（从index开始做heapify）
         def heapify(nums, index, heapSize):
             left = index * 2 + 1  # 确认index的左树
             while left < heapSize:  # 如果左树的值是在树内
@@ -61,8 +61,8 @@ class Solution2(object):
                 if largest == index:  # 父节点已经是最大的，停止向下移动
                     break
                 nums[largest], nums[index] = nums[index], nums[largest]  # 父节点不是最大的，交换
-                index = largest   # 当前节点成为大子树的节点
-                left = index * 2 + 1   # 找当当前树的左子树，重复判断
+                index = largest  # 当前节点成为大子树的节点
+                left = index * 2 + 1  # 找当当前树的左子树，重复判断
             return nums
 
         if (len(nums) == 0) or (len(nums) == 1):
@@ -70,18 +70,66 @@ class Solution2(object):
         else:
             heapSize = len(nums)
             i = heapSize - 1
-            while i >= 0:   # 从右往左确认大根堆的顺序， 时间复杂度为O(1)
+            while i >= 0:  # 从右往左确认大根堆的顺序， 时间复杂度为O(1)
                 heapify(nums, i, heapSize)
                 i -= 1
 
         heapSize = len(nums)
-        nums[0], nums[heapSize - 1] = nums[heapSize - 1], nums[0]   # 把当前top拿出来，放到最后面成为已经排序的
+        nums[0], nums[heapSize - 1] = nums[heapSize - 1], nums[0]  # 把当前top拿出来，放到最后面成为已经排序的
         heapSize -= 1
         while heapSize > 0:
             heapify(nums, 0, heapSize)  # 对刚换上来的值进行heapify
             nums[0], nums[heapSize - 1] = nums[heapSize - 1], nums[0]  # 重复上面的过程
-            heapSize -= 1    # size减一，证明最后一个已经排好了
+            heapSize -= 1  # size减一，证明最后一个已经排好了
         return nums
+
+
+# Quick sort Approach
+# Time: O(n^2)
+# Space: O(n)
+# 2023.06.30: no
+import random
+class Solution3:
+7    def sortArray(self, nums):
+        # 随机打乱顺序，使时间复杂度稳定
+        self.shuffle(nums)
+        # 排序整个数组，直接修改
+        self.sort_helper(nums, 0, len(nums) - 1)
+        return nums
+
+    def sort_helper(self, nums, lo, hi):
+        if lo >= hi:
+            return
+        # 对nums[lo..hi]进行切分使得nums[lo..p - 1] <= nums[p] < nums[p + 1..hi]
+        p = self.partition(nums, lo, hi)
+        # 递归左半边，递归右半边
+        self.sort_helper(nums, lo, p - 1)
+        self.sort_helper(nums, p + 1, hi)
+
+    # 把第一个点设置成pivot，之后比他大的从右开始放，比他小的从pivot+1开始放
+    def partition(self, nums, lo, hi):
+        pivot = nums[lo]
+        i, j = lo + 1, hi
+        while i <= j:
+            # while 结束时恰好 nums[i] > pivot
+            while i < hi and nums[i] <= pivot:
+                i += 1
+            # while 结束时恰好 nums[j] <= pivot
+            while j > lo and nums[j] > pivot:
+                j -= 1
+            # 这里为交换完了，就退出交换pivot了
+            if i >= j:
+                break
+            # 这里没交换完，就把pivot大小的交换
+            nums[i], nums[j] = nums[j], nums[i]
+        nums[lo], nums[j] = nums[j], nums[lo]
+        return j
+
+    def shuffle(self, nums):
+        n = len(nums)
+        for i in range(n):
+            r = i + random.randint(0, n - i - 1)
+            nums[i], nums[r] = nums[r], nums[i]
 
 
 # Count sort Approach
@@ -89,7 +137,7 @@ class Solution2(object):
 # Space: O(n)
 # 2023.06.28: no
 # notes: 找出最大最小边界，然后沿着最小开始往最大一个个找
-class Solution3:
+class Solution4:
     def sortArray(self, nums):
         def counting_sort():
             # Create the counting hash map.
@@ -113,12 +161,13 @@ class Solution3:
         return nums
 
 
+
 # Radix sort Approach
 # Time: O(d(n+b))
 # Space: O(n+b)
 # 2023.06.28: no
 # notes: 写起来有点麻烦，但是很容易理解
-class Solution4:
+class Solution5:
     # Radix sort function.
     def radix_sort(self, nums):
         # Find the absolute maximum element to find max number of digits.
@@ -165,16 +214,8 @@ class Solution4:
     def sortArray(self, nums):
         return self.radix_sort(nums)
 
-
-    # Tests:
-test = Solution4()
-test.sortArray([5,2,3,1])
-test.sortArray([-2,3,-5])
-test.sortArray(nums = [5,1,1,2,0,0])
-
-
-
-
-
-
-
+# Tests:
+test = Solution3()
+test.sortArray([5, 2, 3, 1])
+test.sortArray([-2, 3, -5])
+test.sortArray(nums=[5, 1, 1, 2, 0, 0])
