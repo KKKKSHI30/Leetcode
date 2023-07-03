@@ -32,9 +32,6 @@ class Solution(object):
             results.append(max_current)
         return results
 
-
-
-
 # Tests:
 tree = TreeNode(2, TreeNode(5), TreeNode(2, TreeNode(3), TreeNode(2)))
 tree2 = TreeNode(2, TreeNode(2), TreeNode(2))

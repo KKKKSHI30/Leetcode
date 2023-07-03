@@ -9,7 +9,7 @@ class TreeNode(object):
 # Space: O(n)
 # 2023.07.02: yes
 class Solution(object):
-    def zigzagLevelOrder(self, root):
+    def levelOrderBottom(self, root):
         """
         :type root: TreeNode
         :rtype: List[List[int]]
@@ -17,7 +17,6 @@ class Solution(object):
         s = []
         level_nodes = []
         results = []
-        reversed = True
         if root == None:
             return s
         s.append(root)
@@ -25,55 +24,45 @@ class Solution(object):
             current_level = len(s)
             for i in range(current_level):
                 node = s.pop(0)
-                if reversed:
-                    level_nodes.append(node.val)
-                else:
-                    level_nodes.insert(0, node.val)
+                level_nodes.append(node.val)
                 if node.left:
                     s.append(node.left)
                 if node.right:
                     s.append(node.right)
-            reversed = not reversed
-            results.append(level_nodes)
+            results.insert(0,level_nodes)
             level_nodes = []
         return results
-
 
 # depth-first Approach
 # Time: O(n)
 # Space: O(n)
 # 2023.07.02: yes
-from collections import deque
-
 class Solution2:
-    def zigzagLevelOrder(self, root):
-        """
-        :type root: TreeNode
-        :rtype: List[List[int]]
-        """
-        if root is None:
-            return []
+    def levelOrderBottom(self, root):
+        levels = []
+        if not root:
+            return levels
 
-        results = []
-        def dfs(node, level):
-            if level >= len(results):
-                results.append(deque([node.val]))
-            else:
-                if level % 2 == 0:
-                    results[level].append(node.val)
-                else:
-                    results[level].appendleft(node.val)
+        def helper(node, level):
+            # start the current level
+            if len(levels) == level:
+                levels.append([])
 
-            for next_node in [node.left, node.right]:
-                if next_node is not None:
-                    dfs(next_node, level+1)
-        dfs(root, 0)
+            # append the current node value
+            levels[level].append(node.val)
 
-        return results
+            # process child nodes for the next level
+            if node.left:
+                helper(node.left, level + 1)
+            if node.right:
+                helper(node.right, level + 1)
+
+        helper(root, 0)
+        return levels[::-1]
 
 # Tests:
 tree = TreeNode(3, TreeNode(9), TreeNode(20, TreeNode(15), TreeNode(7)))
 tree2 = TreeNode(0, TreeNode(2, TreeNode(1, TreeNode(5), TreeNode(1)), None),
                  TreeNode(4, TreeNode(3, None, TreeNode(6)), TreeNode(-1, None, TreeNode(8))))
 test = Solution()
-test.zigzagLevelOrder(tree2)
+test.levelOrderBottom(tree2)
