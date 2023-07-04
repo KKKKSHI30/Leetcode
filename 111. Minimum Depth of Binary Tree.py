@@ -5,74 +5,39 @@ class TreeNode(object):
         self.left = left
         self.right = right
 
-import queue
+# depth-first Search Approach bottom up
+# Time: O(n)
+# Space: O(d), d is diameter
+# 2023.07.03: yes
 class Solution(object):
     def minDepth(self, root):
         """
         :type root: TreeNode
         :rtype: int
         """
-        q = queue.Queue()
-        q.put(root)
-        depth = 1
-        while not q.empty():
-            sz = q.qsize()
-            for i in range(sz):
-                cur = q.get()
-                if cur.left == None and cur.right == None:
-                    return depth
-                if cur.left != None:
-                    q.put(cur.left)
-                if cur.right != None:
-                    q.put(cur.right)
-            depth += 1
-
-a = TreeNode(3, TreeNode(9), TreeNode(20, TreeNode(15), TreeNode(7)))
-test = Solution()
-test.minDepth(a)
-
-
-class Solution2:
-    # recursion method
-    def minDepth(self, root):
-        """
-        :type root: TreeNode
-        :rtype: int
-        """
-        if not root:
+        if root == None:
             return 0
+        q = [root]
+        level = 0
+        while q:
+            level_length = len(q)
+            for i in range(level_length):
+                node = q.pop(0)
+                if node.left == None and node.right == None:
+                    while q:
+                        q.pop()
+                    break
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
+            level +=1
+        return level
 
-        children = [root.left, root.right]
-        # if we're at leaf node
-        if not any(children):
-            return 1
-
-        min_depth = float('inf')
-        for c in children:
-            if c:
-                min_depth = min(self.minDepth(c), min_depth)
-        return min_depth + 1
+# Tests:
+tree = TreeNode(3, TreeNode(9), TreeNode(20, TreeNode(15), TreeNode(7)))
+tree2 = TreeNode(2, None, TreeNode(3, None, TreeNode(4, None, TreeNode(5, None, TreeNode(6)))))
+result = Solution()
+result.minDepth(tree2)
 
 
-class Solution3:
-    # dfs iteration
-    def minDepth(self, root):
-        """
-        :type root: TreeNode
-        :rtype: int
-        """
-        if not root:
-            return 0
-        else:
-            stack, min_depth = [(1, root), ], float('inf')
-
-        while stack:
-            depth, root = stack.pop()
-            children = [root.left, root.right]
-            if not any(children):
-                min_depth = min(depth, min_depth)
-            for c in children:
-                if c:
-                    stack.append((depth + 1, c))
-
-        return min_depth
