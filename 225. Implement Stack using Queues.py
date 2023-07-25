@@ -42,34 +42,34 @@ class MyStack(object):
 # 2023.07.07: yes
 # notes: 三个方法，除了单独的不一样，其他都和queue一样不需要修改
 # Removes the element on top of the stack
-def pop():   # if pop is O(n)
-    q1 = queue.Queue()
-    q2 = queue.Queue()
-    while len(q1) > 1:
-        top = q1.pop(0)
-        q2.append(top)
-    q1.pop(0)
-    q1, q2 = q2, q1
+# 1      #      # 3     # 3 2 1
+# 2      # 2 1  # 2 1   #
+class MyStack2:
+    def __init__(self):
+        self.q = deque()
+        self.top_elem = 0
 
-# Pushes an element onto the stack
-def push(x):  # if push is O(n)
-    q1 = queue.Queue()
-    q2 = queue.Queue()
-    q2.append(x)
-    top = x
-    while len(q1) > 0:
-        q2.append(q1.pop(0))
-    q1, q2 = q2, q1
+    def push(self, x: int):
+        self.q.append(x)
+        self.top_elem = x
 
-# Pushes an element onto the stack
-def push(x): # 用单queue去解决stack
-    q1 = queue.Queue()
-    q2 = queue.Queue()
-    q1.append(x)
-    sz = len(q1)
-    while sz > 1:
-        q1.append(q1.pop(0))
-        sz -= 1
+    def pop(self) -> int:
+        size = len(self.q)
+        # 留下队尾 2 个元素
+        while size > 2:
+            self.q.append(self.q.popleft())
+            size -= 1
+        # 记录新的队尾元素
+        self.top_elem = self.q[0]
+        self.q.append(self.q.popleft())
+        # 删除之前的队尾元素
+        return self.q.popleft()
+
+    def top(self) -> int:
+        return self.top_elem
+
+    def empty(self) -> bool:
+        return len(self.q) == 0
 
 
 # Tests:

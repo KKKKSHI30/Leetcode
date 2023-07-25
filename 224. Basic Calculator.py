@@ -1,5 +1,10 @@
+# Stack and String Reversal
+# Time: O(n)
+# Space: O(n)
+# 2023.07.19: yes
 class Solution:
     def evaluate_expr(self, stack):
+
         # If stack is empty or the expression starts with
         # a symbol, then append 0 to the stack.
         # i.e. [1, '-', 2, '-'] becomes [1, '-', 2, '-', 0]
@@ -57,12 +62,11 @@ class Solution:
         # Evaluate any left overs in the stack.
         return self.evaluate_expr(stack)
 
-test = Solution()
-test.calculate("(1+(4+5+2)-3)+(6+8)")
-test.calculate("1 + 1")
 
-
-
+# Stack and No String Reversal
+# Time: O(n)
+# Space: O(n)
+# 2023.07.19: yes
 class Solution2:
     def calculate(self, s: str) -> int:
 
@@ -127,5 +131,5 @@ class Solution2:
 
         return res + sign * operand
 
-test = Solution2()
+test = Solution()
 test.calculate("(1+(4+5+2)-3)+(6+8)")

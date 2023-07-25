@@ -1,45 +1,53 @@
-class Solution(object):
-    def fib(self, n):
-        """
-        :type n: int
-        :rtype: int
-        """
-        saving = [0, 1]
-        for i in range(n-1):
-            saving.append(saving[i] + saving[i+1])
-        return saving[n]
-
-    def fib2(self, n):
-        if n == 0:
-            return 0
-        n0 = 0
-        n1 = 1
-        for i in range(n-1):
-            n2 = n0 + n1
-            n0 = n1
-            n1 = n2
-        return n1
-
-class Solution2:
-    # recursion, not good
-    # time: O(2^n), space: O(n)
+# Recursion
+# Time: O(2^n)
+# Space: O(n)
+# 2023.06.20: yes
+class Solution:
     def fib(self, N: int) -> int:
         if N <= 1:
             return N
         return self.fib(N - 1) + self.fib(N - 2)
 
 
+# Recursion
+# Time: O(n)
+# Space: O(n)
+# 2023.06.20: yes
+class Solution2:
+    def fib(self, N):
+        if N <= 1:
+            return N
+
+        cache = [0] * (N + 1)
+        cache[1] = 1
+        for i in range(2, N + 1):
+            cache[i] = cache[i - 1] + cache[i - 2]
+        return cache[N]
+
+# Matrix Exponentiation
+# Time: O(logn)
+# Space: O(logn)
+# 2023.06.20: no
 class Solution3:
-    cache = {0: 0, 1: 1}
+    def fib(self, N):
+        if (N <= 1):
+            return N
+        current = 0
+        prev1 = 1
+        prev2 = 0
+        for i in range(2, N + 1):
+            current = prev1 + prev2
+            prev2 = prev1
+            prev1 = current
+        return current
 
-    def fib(self, N: int) -> int:
-        if N in self.cache:
-            return self.cache[N]
-        self.cache[N] = self.fib(N - 1) + self.fib(N - 2)
-        return self.cache[N]
-
+# Matrix Exponentiation
+# Time: O(n)
+# Space: O(n)
+# 2023.06.20: no
+# notes: 纯数，跳过先
 class Solution4:
-    def fib(self, N: int) -> int:
+    def fib(self, N):
         if (N <= 1):
             return N
 
@@ -48,7 +56,7 @@ class Solution4:
 
         return A[0][0]
 
-    def matrix_power(self, A, N: int):
+    def matrix_power(self, A, N):
         if (N <= 1):
             return A
 
@@ -70,11 +78,27 @@ class Solution4:
         A[1][0] = z
         A[1][1] = w
 
-# Contributed by LeetCode user mereck.
+
+# Math
+# Time: O(logn)
+# Space: O(1)
+# 2023.06.20: no
+# notes: Binet's formula去计算，纯数跳过
 class Solution5:
     def fib(self, N: int) -> int:
         golden_ratio = (1 + (5 ** 0.5)) / 2
         return int(round((golden_ratio ** N) / (5 ** 0.5)))
 
-test = Solution()
-test.fib2(0)
+
+
+
+
+
+
+
+
+
+
+
+
+

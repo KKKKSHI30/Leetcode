@@ -1,32 +1,37 @@
-import sys
-class Solution(object):
+# Dynamic programming - Top down
+# Time: O(sn)
+# Space: O(s)
+# 2023.06.21: no
+# notes: 状态转移方程：
+# dp = 0, n = 0
+#    = -1, n < 0
+#    = min(dp(n-coin) + 1)
+from functools import lru_cache
+class Solution:
     def coinChange(self, coins, amount):
-        """
-        :type coins: List[int]
-        :type amount: int
-        :rtype: int
-        """
-        return self.dp(coins, amount)
+        memo = [-666] * (amount + 1)
+        @lru_cache(None)
+        def dfs(rem):
+            if rem < 0:
+                return -1
+            if rem == 0:
+                return 0
+            if memo[rem] != -666:
+                return memo[rem]
+            min_cost = float('inf')
+            for coin in coins:
+                res = dfs(rem - coin)
+                if res != -1:
+                    min_cost = min(min_cost, res + 1)
+            memo[rem] = -1 if min_cost == float('inf') else min_cost
+            return memo[rem]
+        return dfs(amount)
 
-    def dp(self, coins, amount):
-        if amount == 0:
-            return 0
-        if amount < 0:
-            return -1
-        res = sys.maxsize
-        for i in range(len(coins)):
-            subproblem = self.dp(coins, amount - coins[i])
-            if subproblem == -1:
-                continue
-            res = min(res, subproblem+1)
-        if res == sys.maxsize:
-            return -1
-        else:
-            return res
-
-test = Solution()
-test.coinChange([2,5], 11)
-
+# Dynamic programming - Bottom up
+# Time: O(sn)
+# Space: O(n)
+# 2023.06.21: no
+# notes: 都是bottom up, 第一个是根据先amount再分类金币，另一个是先金币再amount更新
 class Solution2(object):
     def coinChange(self, coins, amount):
         """
@@ -34,49 +39,28 @@ class Solution2(object):
         :type amount: int
         :rtype: int
         """
-        self.saving = [-30] * (amount+1)
-        return self.dp(coins, amount)
-
-    def dp(self, coins, amount):
-        if amount == 0:
-            return 0
-        if amount < 0:
-            return -1
-        if self.saving[amount] != -30:
-            return self.saving[amount]
-        res = sys.maxsize
-        for i in range(len(coins)):
-            subproblem = self.dp(coins, amount - coins[i])
-            if subproblem == -1:
-                continue
-            res = min(res, subproblem + 1)
-        if res == sys.maxsize:
-            self.saving[amount] = -1
-        else:
-            self.saving[amount] = res
-        return self.saving[amount]
-
-test = Solution2()
-test.coinChange([2,5], 11)
-
-class Solution3(object):
-    def coinChange(self, coins, amount):
-        """
-        :type coins: List[int]
-        :type amount: int
-        :rtype: int
-        """
-        saving = [amount+1] * (amount + 1)
-        saving[0] = 0
-        for i in range(len(saving)):
-            for j in range(len(coins)):
-                if i - coins[j] < 0:
+        dp = [float("inf")] * (amount+1)
+        dp[0] = 0
+        for i in range(len(dp)):
+            for coin in coins:
+                if i - coin < 0:
                     continue
-                saving[i] = min(saving[i], 1 + saving[i-coins[j]])
-        if saving[amount] == amount +1:
-            return -1
-        else:
-            return saving[amount]
+                dp[i] = min(dp[i], dp[i-coin]+1)
+        return -1 if dp[amount] == float("inf") else dp[amount]
 
-test = Solution3()
-test.coinChange([2,5], 11)
+
+class Solution3:
+    def coinChange(self, coins, amount):
+        dp = [float('inf')] * (amount + 1)
+        dp[0] = 0
+
+        for coin in coins:
+            for x in range(coin, amount + 1):
+                dp[x] = min(dp[x], dp[x - coin] + 1)
+        return dp[amount] if dp[amount] != float('inf') else -1
+
+    # Tests:
+test = Solution2()
+test.coinChange(coins = [2], amount = 3)
+test.coinChange(coins = [1,2,5], amount = 11)
+
