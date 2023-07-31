@@ -3,8 +3,8 @@
 # Space: O(n)
 # 2023.07.28: no
 # notes: 标答这个方法我感觉用了数学方法，不是纯正dp，dp的定义是到dp[j]为止，最多几个A,其中
-# 发现了两个规律，dp[i] = i是【0-3）的时候, dp[j]=(j−i−1)⋅dp[i], where i+3≤j≤i+6，
-# 超过i+6的时候就需要chon更新考虑CA-CC-CV了，所以每次i遍历的时候，j只需要i+3到i+6中间
+# 发现了两个规律，dp[i] = i是[0-3）的时候, dp[j]=(j−i−1)⋅dp[i], where i+3≤j≤i+6，
+# 超过i+6的时候就需要重新考虑CA-CC-CV了，所以每次i遍历的时候，j只需要i+3到i+6中间
 class Solution:
     def maxA(self, n):
         dp = list(range(n + 1))
@@ -17,7 +17,7 @@ class Solution:
 # Time: O(n)
 # Space: O(n)
 # 2023.07.28: no
-# notes: 暴力动规，没有用上多余的技巧
+# notes: 暴力动规，没有用上多余的技巧，dp[j-2]才是当时有的A数量，i-j+1是CV复制的次数而不是当前个数
 class Solution2:
     def maxA(self,N):
         dp = [0] * (N + 1)
