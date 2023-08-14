@@ -1,3 +1,11 @@
+# Backtrack
+# Time: O(4^n/root(n))
+# Space: O(n)
+# 2023.08.04: no
+# notes: 这道题就是典型回溯算法，每个地方可以加右括号或者左括号
+# 重点是什么时候这个情况不行，1.右括号比左括号多，直接返回
+# 2. 右括号和左括号的数量是负数了
+import collections
 class Solution(object):
     def generateParenthesis(self, n):
         """
@@ -25,37 +33,80 @@ class Solution(object):
         self.backtracking(left, right-1, cur, results)
         cur.pop()
 
+# Backtrack
+# Time: O(4^n/root(n))
+# Space: O(n)
+# 2023.08.04: no
+# notes: 这个backtrack比上面一个好一点，手动筛选了一些情况，比如left<n的时候可以加左
+# 但是right<left的情况就可以加右了，所以左是必加的，右是看情况加的，效率高一点
+class Solution2:
+    def generateParenthesis(self, n):
+        answer = []
+        def backtracking(cur_string, left_count, right_count):
+            if len(cur_string) == 2 * n:
+                answer.append("".join(cur_string))
+                return
+            if left_count < n:
+                cur_string.append("(")
+                backtracking(cur_string, left_count + 1, right_count)
+                cur_string.pop()
+            if right_count < left_count:
+                cur_string.append(")")
+                backtracking(cur_string, left_count, right_count + 1)
+                cur_string.pop()
+        backtracking([], 0, 0)
+        return answer
+
 test = Solution()
 test.generateParenthesis(3)
 
-class Solution2(object):
+# Brute force
+# Time: O(2^2n*n)
+# Space: O(n)
+# 2023.08.04: no
+# notes: 每次加(或者)，不符合就是删掉，符合就留下
+class Solution3:
     def generateParenthesis(self, n):
-        def generate(A = []):
-            if len(A) == 2*n:
-                if valid(A):
-                    ans.append("".join(A))
-            else:
-                A.append('(')
-                generate(A)
-                A.pop()
-                A.append(')')
-                generate(A)
-                A.pop()
+        def isValid(p_string):
+            left_count = 0
+            for p in p_string:
+                if p == '(':
+                    left_count += 1
+                else:
+                    left_count -= 1
 
-        def valid(A):
-            bal = 0
-            for c in A:
-                if c == '(': bal += 1
-                else: bal -= 1
-                if bal < 0: return False
-            return bal == 0
+                if left_count < 0:
+                    return False
 
-        ans = []
-        generate()
-        return ans
+            return left_count == 0
 
-class Solution3(object):
+        answer = []
+        queue = collections.deque([""])
+        while queue:
+            cur_string = queue.popleft()
+
+            # If the length of cur_string is 2 * n, add it to `answer` if
+            # it is valid.
+            if len(cur_string) == 2 * n:
+                if isValid(cur_string):
+                    answer.append(cur_string)
+                continue
+            queue.append(cur_string + ")")
+            queue.append(cur_string + "(")
+
+        return answer
+
+# Divide and Conquer
+# Time: O(4^n/root(n))
+# Space: O(n)
+# 2023.08.04: no
+# notes:这道题的核心是F(3) = "(" + F(0) + ")" + F(2)
+#                        + "(" + F(1) + ")" + F(1)
+#                        + "(" + F(2) + ")" + F(0)
+# 通过在左边加括号把等式分解掉
+class Solution4(object):
     def generateParenthesis(self, N):
+        # @cache， 加快效率，增加空间复杂度
         if N == 0: return ['']
         ans = []
         for c in range(N):
@@ -66,7 +117,7 @@ class Solution3(object):
                     ans.append('({}){}'.format(left, right))
         return ans
 
-test = Solution3()
+test = Solution4()
 test.generateParenthesis(2)
 
 # Solution 3 still need some explanation, come back in the future

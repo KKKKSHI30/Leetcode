@@ -5,7 +5,7 @@ class TreeNode(object):
         self.left = left
         self.right = right
 
-# depth-first Search Approach bottom up
+# Breadth-first Search
 # Time: O(n)
 # Space: O(d), d is diameter
 # 2023.07.03: yes
@@ -18,15 +18,13 @@ class Solution(object):
         if root == None:
             return 0
         q = [root]
-        level = 0
+        level = 1
         while q:
             level_length = len(q)
             for i in range(level_length):
                 node = q.pop(0)
                 if node.left == None and node.right == None:
-                    while q:
-                        q.pop()
-                    break
+                    return level
                 if node.left:
                     q.append(node.left)
                 if node.right:

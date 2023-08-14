@@ -1,11 +1,9 @@
 # Backtracking
 # Time: O(n^2)
 # Space: O(n)
-# 2023.08.01: no
-# notes: 这里最好的一个点是检查斜线，对于右斜线来说，row-col是固定值，对于左斜线来说,row+col是固定值
-# 只要值一样，就可以判断他们在一条斜线上
+# 2023.08.01: yes
 class Solution:
-    def solveNQueens(self, n):
+    def totalNQueens(self, n):
         # Making use of a helper function to get the
         # solutions in the correct output format
         def create_board(state):
@@ -48,7 +46,7 @@ class Solution:
         ans = []
         empty_board = [["."] * n for _ in range(n)]
         backtrack(0, set(), set(), set(), empty_board)
-        return ans
+        return len(ans)
 
 test = Solution()
 test.solveNQueens(4)

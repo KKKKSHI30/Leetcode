@@ -100,13 +100,10 @@ class Solution4:
 
 
 # Backtracking (time exceed)
-# notes: 只是用来比较backtracking与dp的区别
-# 注意：python 代码由 chatGPT🤖 根据我的 java 代码翻译，旨在帮助不同背景的读者理解算法逻辑。
-# 本代码还未经过力扣测试，仅供参考，如有疑惑，可以参照我写的 java 代码对比查看。
-
+# notes: 只是用来比较backtracking与dp的区别，超时
 from typing import List
 
-class Solution:
+class Solution4:
     def __init__(self):
         self.wordDict = []
         # 记录是否找到一个合法的答案

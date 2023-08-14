@@ -1,40 +1,16 @@
+# Backtracking
+# Time: O(2^n)
+# Space: O(n)
+# 2023.08.03: yes
+# notes: 根据counter算出每个元素的数量，遍历的时候根据元素遍历去扣除freq，就不会重复调用一个元素了
 from collections import Counter
-
-class Solution(object):
-    def combinationSum2(self, candidates, target):
-        """
-        :type candidates: List[int]
-        :type target: int
-        :rtype: List[List[int]]
-        """
-        results = []
-        cur = []
-        candidates = sorted(candidates)
-        self.backtracking(candidates, cur, target, results, 0)
-        return results
-
-    def backtracking(self, candidates, cur, target, results, start):
-        if target == 0:
-            results.append(cur[:])
-            return
-        elif target < 0:
-            return
-        for i in range(start, len(candidates)):
-            if i > start and candidates[i] == candidates[i-1]:
-                continue
-            cur.append(candidates[i])
-            self.backtracking(candidates, cur, target - candidates[i], results, i+1)
-            cur.pop()
-
-test = Solution()
-test.combinationSum2([10,1,2,7,6,1,5], 8)
-
-
-class Solution2:
+class Solution:
     def combinationSum2(self, candidates, target):
 
         def backtrack(comb, remain, curr, counter, results):
             if remain == 0:
+                # make a deep copy of the current combination
+                #   rather than keeping the reference.
                 results.append(list(comb))
                 return
             elif remain < 0:
@@ -57,12 +33,55 @@ class Solution2:
                 counter[next_curr] = (candidate, freq)
                 comb.pop()
 
-        results = []
+        results = []  # container to hold the final combinations
         counter = Counter(candidates)
+        # convert the counter table to a list of (num, count) tuples
         counter = [(c, counter[c]) for c in counter]
-        backtrack(comb = [], remain = target, curr = 0, counter = counter, results = results)
+
+        backtrack(comb = [], remain = target, curr = 0,
+                  counter = counter, results = results)
+
         return results
 
-test = Solution2()
-test.combinationSum2([10,1,2,7,6,1,5], 8)
+
+test = Solution()
+test.combinationSum2([2,5,2,1,2], target = 5)
+
+# Backtracking
+# Time: O(2^n)
+# Space: O(n)
+# 2023.08.03: yes
+# notes: sort可以剪枝，因为比他大的肯定超出结果了，candidates[next_curr] == candidates[next_curr - 1]这个情况
+# 说明和前面的一样，也可以去掉，防止重复
+class Solution2:
+    def combinationSum2(self, candidates, target):
+
+        def backtrack(comb, remain, curr, results):
+
+            if remain == 0:
+                # make a deep copy of the resulted combination
+                results.append(list(comb))
+                return
+
+            for next_curr in range(curr, len(candidates)):
+
+                if next_curr > curr and candidates[next_curr] == candidates[next_curr - 1]:
+                    continue
+
+                pick = candidates[next_curr]
+                # optimization: skip the rest of elements starting from 'curr' index
+                if remain - pick < 0:
+                    break
+
+                comb.append(pick)
+                backtrack(comb, remain - pick, next_curr + 1, results)
+                comb.pop()
+
+        candidates.sort()
+
+        comb, results = [], []
+        backtrack(comb, target, 0, results)
+
+        return results
+
 

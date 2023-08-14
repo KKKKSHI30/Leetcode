@@ -1,12 +1,12 @@
-class Solution(object):
+# Sorting
+# Time: O(nlogn)
+# Space: O(1)
+# 2023.07.31: yes
+class Solution:
     def canAttendMeetings(self, intervals):
-        """
-        :type intervals: List[List[int]]
-        :rtype: bool
-        """
-        intervals = sorted(intervals, key=lambda x: x[0])
-        for i in range(len(intervals) -1):
-            if intervals[i][1] > intervals[i+1][0]:
+        intervals.sort()
+        for i in range(len(intervals) - 1):
+            if intervals[i][1] > intervals[i + 1][0]:
                 return False
         return True
 
