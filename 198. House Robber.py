@@ -70,3 +70,4 @@ class Solution3:
 test = Solution()
 test.rob([1,2,3,1])
 test.rob([2,7,9,3,1])
+test.rob([5,30,99,60,5,10])

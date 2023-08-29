@@ -55,20 +55,34 @@ class PriceLadder():
     def GetPriceLevels(self, artist, numberOfPriceLevels):
         print(artist)
         orders = self.artist_based[artist]
+        all_values = {}
+        index = -1
+        for i in orders:
+            index += 1
+            order = self.order_based[i]
+            if (order[0], order[1]) in all_values:
+                self.order_based[all_values[(order[0], order[1])]][2] += order[2]
+                self.order_based.pop(i)
+                orders.pop(index)
+            else:
+                all_values[(order[0], order[1])] = i
         h = []
         h2 = []
+        temp = []
         for i in orders:
-            heapq.heappush(h, [-self.order_based[i][1], self.order_based[i][2]])
+            heapq.heappush(h, [self.order_based[i][1], self.order_based[i][2]])
+            heapq.heappush(h2, [-self.order_based[i][1], self.order_based[i][2]])
         time = 0
         while time < numberOfPriceLevels:
             temp_price, temp_quantity = heapq.heappop(h)
             if temp_quantity < 0:
-                print(f"0 {-int(temp_price)} {-int(temp_quantity)}")
+                temp.append(f"0 {int(temp_price)} {-int(temp_quantity)}")
                 time += 1
             else:
                 heapq.heappush(h2, [temp_price, temp_quantity])
-        while len(h) != 0:
-            heapq.heappush(h2, heapq.heappop(h))
+        temp.reverse()
+        for i in temp:
+            print(i)
         time = 0
         while time < numberOfPriceLevels:
             temp_price, temp_quantity = heapq.heappop(h2)
@@ -120,6 +134,12 @@ ADD 5 TaylorSwift 98 2
 ADD 6 TaylorSwift 99   5
 DEL_PRICE TaylorSwift 100
 TaylorSwift 1
+
+# 卖的价格需要最低
+buy price sell
+0  101   10
+10 99    0
+
 """
 
 

@@ -20,3 +20,8 @@ class Solution:
                 cur_end = cur_far
 
         return answer
+
+# Tests:
+test = Solution()
+test.jump([2,3,0,1,4])
+test.jump([2,3,1,4,4])

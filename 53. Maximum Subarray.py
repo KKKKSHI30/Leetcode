@@ -150,8 +150,23 @@ class Solution6:
         # any array - so just call it using the entire input!
         return findBestSubarray(nums, 0, len(nums) - 1)
 
-test = Solution6()
+
+class Solution7:
+    def maxSubArray(self, nums):
+        # Initialize our variables using the first element.
+        current_subarray = max_subarray = nums[0]
+
+        # Start with the 2nd element since we already used the first one.
+        for num in nums[1:]:
+            # If current_subarray is negative, throw it away. Otherwise, keep adding to it.
+            current_subarray = max(num, current_subarray + num)
+            max_subarray = max(max_subarray, current_subarray)
+
+        return max_subarray
+
+test = Solution7()
+test.maxSubArray([-2,1,-3,4,-1,2,1,-5,-5])
 test.maxSubArray([5,1,-3,4,5,2,1,-5,-5])
 test.maxSubArray([-3,-4,-1,-5])
-test.maxSubArray([-2,1,-3,4,-1,2,1,-5,-5])
+
 

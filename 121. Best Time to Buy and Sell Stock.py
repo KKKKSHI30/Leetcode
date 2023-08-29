@@ -82,6 +82,7 @@ prices3 = [7,6,4,3,1]
 test.maxProfit(prices)
 test.maxProfit(prices2)
 test.maxProfit(prices3)
+test.maxProfit([1, 2, 90, 10, 110])
 
 
 
